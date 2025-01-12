@@ -1,0 +1,18 @@
+.container{
+    // position: absolute;
+    // top: 50%;
+    // left: 50%;
+    // transform: translate(-50%,-50%);
+    // text-align: center;
+    height: calc(100vh - 64px - 65px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-image: linear-gradient(-20deg, #00cdac 0%, #8ddad5 100%);
+    h1{
+        font-weight: 700;
+        font-size: 40px;
+        
+    }
+}

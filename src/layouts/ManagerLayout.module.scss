@@ -1,0 +1,18 @@
+.container{
+    padding: 24px 100px;
+    // width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    .left{
+        width: 120px;
+        padding-top: 60px;
+        .buttonNav{
+            margin-top: 40px;
+        }
+    }
+    .right{
+        flex: 1;
+        padding : 0 60px ;
+
+    }
+}

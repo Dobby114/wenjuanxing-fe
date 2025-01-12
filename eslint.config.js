@@ -14,4 +14,5 @@ export default [
   pluginReact.configs.flat.recommended,
   eslintPluginPrettierRecommended,
   eslintConfigPrettier,
+  {rules:{"@typescript-eslint/no-explicit-any": ["off"]}}
 ];

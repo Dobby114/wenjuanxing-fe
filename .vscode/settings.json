@@ -8,6 +8,8 @@
         "Elems",
         "Formik",
         "immer",
-        "questioncard"
+        "Popconfirm",
+        "questioncard",
+        "wenjuanxing"
     ]
 }
