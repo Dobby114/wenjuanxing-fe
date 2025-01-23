@@ -13,7 +13,7 @@ const Logo: FC = () => {
           <Title>
             <EditOutlined />
           </Title>
-          <Title>星星问卷</Title>
+          <Title>造梦问卷</Title>
         </Space>
       </Link>
     </div>

@@ -13,7 +13,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 const ManageLayout: FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  console.log(location);
+  // console.log(location);
   return (
     <div className={style.container}>
       <div className={style.left}>

@@ -3,6 +3,7 @@ import { FC } from 'react';
 import QuestionList from '../../components/QuestionList';
 import style from './Common.module.scss';
 import { Empty } from 'antd';
+import ListSearch from '../../components/ListSearch';
 const StarList: FC = () => {
   const mockQuestionData = [
     {
@@ -34,7 +35,12 @@ const StarList: FC = () => {
     <div className={style.container}>
       {/* <div className={style.header}>星星问卷</div> */}
       <div className={style.content}>
-        <div className={style.title}>标星问卷</div>
+        <div className={style.title}>
+          <div>星标问卷</div>
+          <div>
+            <ListSearch />
+          </div>
+        </div>
         {/* 问卷列表 */}
         {mockQuestionData.length > 0 ? (
           mockQuestionData.map(item => {

@@ -4,7 +4,7 @@ import { LOGIN_PATHNAME } from '../router';
 const UserInfo: FC = () => {
   return (
     <div>
-      <Link to={LOGIN_PATHNAME}>登陆</Link>
+      <Link to={LOGIN_PATHNAME}>登陆/注册</Link>
     </div>
   );
 };

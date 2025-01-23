@@ -1,0 +1,38 @@
+.container{
+    position: absolute;
+    top:0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+    .main{
+        height: 420px;
+        width: 380px;
+        border: solid 1px rgba(18, 17, 42, .07);
+        box-shadow: 0 22px 50px #d9e0fd5c;
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        .title{
+            padding-top: 10px;
+        }
+        .form{
+            width: 90%;
+            .submit{
+                width: 100%;
+                text-align: center;
+                button{
+                    width: 80%;
+                }
+            }
+        }
+        .footer{
+        padding-bottom: 20px;
+        }
+    }
+}

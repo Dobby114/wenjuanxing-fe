@@ -2,8 +2,9 @@ import React from 'react';
 import { FC } from 'react';
 import QuestionList from '../../components/QuestionList';
 import style from './Common.module.scss';
-import { useSearchParams } from 'react-router-dom';
+// import { useSearchParams } from 'react-router-dom';
 import { Empty } from 'antd';
+import ListSearch from '../../components/ListSearch';
 const MyQuestionList: FC = () => {
   const mockQuestionData = [
     {
@@ -31,13 +32,18 @@ const MyQuestionList: FC = () => {
       createTime: '12月20日 16:28',
     },
   ];
-  const [searchParams] = useSearchParams();
-  console.log('搜索参数', searchParams.get('keywords'));
+  // const [searchParams] = useSearchParams();
+  // console.log('搜索参数', searchParams.get('keywords'));
   return (
     <div className={style.container}>
       {/* <div className={style.header}>星星问卷</div> */}
       <div className={style.content}>
-        <div className={style.title}>我的问卷</div>
+        <div className={style.title}>
+          <div>我的问卷</div>
+          <div>
+            <ListSearch />
+          </div>
+        </div>
         {/* 问卷列表 */}
         {mockQuestionData.length > 0 ? (
           mockQuestionData.map(item => {

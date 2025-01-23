@@ -4,6 +4,7 @@ import style from './Common.module.scss';
 import { Button, Empty, Table, Tag, Popconfirm, message, Modal, Space } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import { useState } from 'react';
+import ListSearch from '../../components/ListSearch';
 interface questionDataType {
   _id: number;
   title: string;
@@ -153,7 +154,12 @@ const Trash: FC = () => {
       </Modal>
       {/* <div className={style.header}>星星问卷</div> */}
       <div className={style.content}>
-        <div className={style.title}>回收站</div>
+        <div className={style.title}>
+          <div>星标问卷</div>
+          <div>
+            <ListSearch />
+          </div>
+        </div>
         {mockQuestionData.length > 0 ? TableEl : <Empty description="暂无数据" />}
       </div>
       <div className={style.footer}>loader more... 上滑加载更多...</div>
