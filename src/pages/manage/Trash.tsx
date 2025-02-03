@@ -104,6 +104,7 @@ const Trash: FC = () => {
       <Button
         type="primary"
         danger
+        disabled={selectedRows.length ? false : true}
         onClick={() => {
           if (selectedRows.length) {
             setIsModalOpen(true);

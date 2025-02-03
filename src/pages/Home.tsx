@@ -1,7 +1,7 @@
 import React from 'react';
 import { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button } from 'antd';
+import { Button, message } from 'antd';
 import { Typography } from 'antd';
 import styles from './Home.module.scss';
 import { MANAGER_INDEX_PATHNAME } from '../router';
@@ -24,6 +24,7 @@ const Home: FC = () => {
         <Button
           type="primary"
           onClick={() => {
+            message.success('跳转成功');
             navigate(MANAGER_INDEX_PATHNAME);
           }}
         >
