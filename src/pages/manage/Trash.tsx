@@ -1,10 +1,11 @@
 import React from 'react';
 import { FC } from 'react';
 import style from './Common.module.scss';
-import { Button, Empty, Table, Tag, Popconfirm, message, Modal, Space } from 'antd';
+import { Button, Empty, Table, Tag, Popconfirm, message, Modal, Space, Spin } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import { useState } from 'react';
 import ListSearch from '../../components/ListSearch';
+import { useLoadQuestionList } from '../../hooks/useLoadQuestionList';
 interface questionDataType {
   _id: number;
   title: string;
@@ -18,32 +19,8 @@ const Trash: FC = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<number[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [messageApi, contextHolder] = message.useMessage();
-  const mockQuestionData = [
-    {
-      _id: 0,
-      title: '问卷一',
-      isPublished: false,
-      isStar: false,
-      answerCount: 8,
-      createTime: '12月22日 16:28',
-    },
-    {
-      _id: 1,
-      title: '问卷二',
-      isPublished: true,
-      isStar: false,
-      answerCount: 8,
-      createTime: '12月21日 16:28',
-    },
-    {
-      _id: 2,
-      title: '问卷三',
-      isPublished: false,
-      isStar: true,
-      answerCount: 8,
-      createTime: '12月20日 16:28',
-    },
-  ];
+  const { data, loading } = useLoadQuestionList({ isDelete: true });
+  const mockQuestionData = data?.list || [];
   // 不设置ts类型的话，配置属性会报错！！！
   const columns: ColumnsType = [
     {
@@ -156,12 +133,19 @@ const Trash: FC = () => {
       {/* <div className={style.header}>星星问卷</div> */}
       <div className={style.content}>
         <div className={style.title}>
-          <div>星标问卷</div>
+          <div>回收站</div>
           <div>
             <ListSearch />
           </div>
         </div>
-        {mockQuestionData.length > 0 ? TableEl : <Empty description="暂无数据" />}
+        {/* 问卷列表 */}
+        {loading && (
+          <div style={{ textAlign: 'center' }}>
+            <Spin />{' '}
+          </div>
+        )}
+        {!loading && mockQuestionData.length > 0 && TableEl}
+        {!loading && mockQuestionData.length <= 0 && <Empty description="暂无数据" />}
       </div>
       <div className={style.footer}>loader more... 上滑加载更多...</div>
     </div>

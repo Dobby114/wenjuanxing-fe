@@ -4,36 +4,9 @@ import QuestionList from '../../components/QuestionList';
 import style from './Common.module.scss';
 import { Empty, Spin } from 'antd';
 import ListSearch from '../../components/ListSearch';
-import { useRequest } from 'ahooks';
-import { getQuestionList } from '../../services/questions';
+import { useLoadQuestionList } from '../../hooks/useLoadQuestionList';
 const MyQuestionList: FC = () => {
-  // const mockQuestionData = [
-  //   {
-  //     _id: 0,
-  //     title: '问卷一',
-  //     isPublished: false,
-  //     isStar: false,
-  //     answerCount: 8,
-  //     createTime: '12月22日 16:28',
-  //   },
-  //   {
-  //     _id: 1,
-  //     title: '问卷二',
-  //     isPublished: true,
-  //     isStar: false,
-  //     answerCount: 8,
-  //     createTime: '12月21日 16:28',
-  //   },
-  //   {
-  //     _id: 2,
-  //     title: '问卷三',
-  //     isPublished: false,
-  //     isStar: true,
-  //     answerCount: 8,
-  //     createTime: '12月20日 16:28',
-  //   },
-  // ];
-  const { data, loading } = useRequest(getQuestionList);
+  const { data, loading } = useLoadQuestionList();
   const mockQuestionData = data?.list || [];
   // const total = data?.total || 0;
 

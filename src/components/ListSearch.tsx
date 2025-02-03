@@ -25,7 +25,13 @@ const ListSearch: FC = () => {
   }
   return (
     <>
-      <Search value={searchValue} onChange={handleChange} onSearch={handleSearch} allowClear />
+      <Search
+        placeholder="请输入"
+        value={searchValue}
+        onChange={handleChange}
+        onSearch={handleSearch}
+        allowClear
+      />
     </>
   );
 };
