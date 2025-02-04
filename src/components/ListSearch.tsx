@@ -3,7 +3,11 @@ import type { ChangeEvent, FC } from 'react';
 import { Input } from 'antd';
 import { useNavigate, useLocation, useSearchParams } from 'react-router-dom';
 import { LIST_SEARCH_PARAM_KEY } from '../constant';
-const ListSearch: FC = () => {
+interface propsType {
+  loading?: boolean;
+}
+const ListSearch: FC<propsType> = (props: propsType) => {
+  const { loading } = props;
   const nav = useNavigate();
   const location = useLocation();
   const [searchValue, setSearchValue] = useState('');
@@ -31,6 +35,7 @@ const ListSearch: FC = () => {
         onChange={handleChange}
         onSearch={handleSearch}
         allowClear
+        loading={loading}
       />
     </>
   );

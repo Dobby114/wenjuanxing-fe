@@ -6,6 +6,7 @@ import { ColumnsType } from 'antd/es/table';
 import { useState } from 'react';
 import ListSearch from '../../components/ListSearch';
 import { useLoadQuestionList } from '../../hooks/useLoadQuestionList';
+import ListPage from '../../components/ListPage';
 interface questionDataType {
   _id: number;
   title: string;
@@ -21,6 +22,7 @@ const Trash: FC = () => {
   const [messageApi, contextHolder] = message.useMessage();
   const { data, loading } = useLoadQuestionList({ isDelete: true });
   const mockQuestionData = data?.list || [];
+  const total = data?.total || 0;
   // 不设置ts类型的话，配置属性会报错！！！
   const columns: ColumnsType = [
     {
@@ -135,19 +137,28 @@ const Trash: FC = () => {
         <div className={style.title}>
           <div>回收站</div>
           <div>
-            <ListSearch />
+            <ListSearch loading={loading} />
           </div>
         </div>
         {/* 问卷列表 */}
-        {loading && (
-          <div style={{ textAlign: 'center' }}>
-            <Spin />{' '}
-          </div>
-        )}
-        {!loading && mockQuestionData.length > 0 && TableEl}
-        {!loading && mockQuestionData.length <= 0 && <Empty description="暂无数据" />}
+        <div className={style.body}>
+          {loading && (
+            <div style={{ textAlign: 'center' }}>
+              <Spin />{' '}
+            </div>
+          )}
+          {!loading && mockQuestionData.length > 0 && (
+            <div>
+              {TableEl}
+              <div style={{ paddingTop: '20px' }}>
+                {' '}
+                <ListPage total={total} />
+              </div>
+            </div>
+          )}
+          {!loading && mockQuestionData.length <= 0 && <Empty description="暂无数据" />}
+        </div>
       </div>
-      <div className={style.footer}>loader more... 上滑加载更多...</div>
     </div>
   );
 };

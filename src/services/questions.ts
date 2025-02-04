@@ -3,6 +3,8 @@ interface searchParams {
   keywords: string;
   isStar: boolean;
   isDelete: boolean;
+  pageSize: number;
+  pageNo: number;
 }
 // 获取单个问卷信息
 export async function getSingleQuestion(id: string): Promise<dataType> {

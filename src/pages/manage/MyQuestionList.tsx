@@ -16,7 +16,7 @@ const MyQuestionList: FC = () => {
         <div className={style.title}>
           <div>我的问卷</div>
           <div>
-            <ListSearch />
+            <ListSearch loading={loading} />
           </div>
         </div>
         {/* 问卷列表 */}
