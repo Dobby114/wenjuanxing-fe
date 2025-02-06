@@ -144,19 +144,14 @@ const Trash: FC = () => {
         <div className={style.body}>
           {loading && (
             <div style={{ textAlign: 'center' }}>
-              <Spin />{' '}
+              {loading && <Spin tip="加载中">{<div style={{ padding: '50px' }}></div>}</Spin>}
             </div>
           )}
-          {!loading && mockQuestionData.length > 0 && (
-            <div>
-              {TableEl}
-              <div style={{ paddingTop: '20px' }}>
-                {' '}
-                <ListPage total={total} />
-              </div>
-            </div>
-          )}
+          {!loading && mockQuestionData.length > 0 && TableEl}
           {!loading && mockQuestionData.length <= 0 && <Empty description="暂无数据" />}
+        </div>
+        <div className={style.footer}>
+          {!loading && mockQuestionData.length > 0 && <ListPage total={total} />}
         </div>
       </div>
     </div>

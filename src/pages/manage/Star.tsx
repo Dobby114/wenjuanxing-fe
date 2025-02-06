@@ -23,14 +23,16 @@ const StarList: FC = () => {
         <div className={style.body}>
           {loading && <Spin tip="加载中">{<div style={{ padding: '50px' }}></div>}</Spin>}
           {!loading && mockQuestionData.length > 0 && (
-            <div>
+            <div style={{ height: '100%' }}>
               {mockQuestionData.map((item: any) => {
                 return <QuestionList key={item._id} {...item}></QuestionList>;
               })}
-              <ListPage total={total} />
             </div>
           )}
           {!loading && mockQuestionData.length <= 0 && <Empty description="暂无数据" />}
+        </div>
+        <div className={style.footer}>
+          {!loading && mockQuestionData.length > 0 && <ListPage total={total} />}
         </div>
       </div>
       {/* <div className={style.footer}>
