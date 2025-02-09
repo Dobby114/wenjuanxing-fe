@@ -4,10 +4,10 @@ import QuestionList from '../../components/QuestionList';
 import style from './Common.module.scss';
 import { Empty, Spin } from 'antd';
 import ListSearch from '../../components/ListSearch';
-import { useLoadQuestionList } from '../../hooks/useLoadQuestionList';
+import { useLoadQuestionPageList } from '../../hooks/useLoadQuestionPageList';
 import ListPage from '../../components/ListPage';
 const StarList: FC = () => {
-  const { data, loading } = useLoadQuestionList({ isStar: true });
+  const { data, loading } = useLoadQuestionPageList({ isStar: true });
   const mockQuestionData = data?.list || [];
   const total = data?.total || 0;
   return (

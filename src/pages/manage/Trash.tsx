@@ -5,7 +5,7 @@ import { Button, Empty, Table, Tag, Popconfirm, message, Modal, Space, Spin } fr
 import { ColumnsType } from 'antd/es/table';
 import { useState } from 'react';
 import ListSearch from '../../components/ListSearch';
-import { useLoadQuestionList } from '../../hooks/useLoadQuestionList';
+import { useLoadQuestionPageList } from '../../hooks/useLoadQuestionPageList';
 import ListPage from '../../components/ListPage';
 interface questionDataType {
   _id: number;
@@ -20,7 +20,7 @@ const Trash: FC = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<number[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [messageApi, contextHolder] = message.useMessage();
-  const { data, loading } = useLoadQuestionList({ isDelete: true });
+  const { data, loading } = useLoadQuestionPageList({ isDelete: true });
   const mockQuestionData = data?.list || [];
   const total = data?.total || 0;
   // 不设置ts类型的话，配置属性会报错！！！

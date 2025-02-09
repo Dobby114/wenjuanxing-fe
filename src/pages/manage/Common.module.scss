@@ -1,16 +1,19 @@
-.container{
+.container {
     // width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     padding: 20px 30px;
-    .header{
+
+    .header {
         font-size: 32px;
         font-weight: 700;
     }
-    .content{
+
+    .content {
         margin: 30px 0;
-        .title{
+
+        .title {
             margin-bottom: 20px;
             display: flex;
             justify-content: space-between;
@@ -18,13 +21,26 @@
             font-size: 24px;
             font-weight: 700;
         }
-        .body{
+
+        .body {
             height: 500px;
-            overflow-y: scroll ;
+            overflow-y: scroll;
+            position: relative;
+
+            .footer {
+                margin-top: 20px;
+                text-align: center;
+            }
+            .loading{
+                position: absolute;
+                top: 100px;
+                left: 50%;
+                z-index: 100;
+            }
         }
-        .footer{
+        .footer {
             margin-top: 20px;
-            background-color: #fff;
+            // background-color: #fff;
         }
     }
 }

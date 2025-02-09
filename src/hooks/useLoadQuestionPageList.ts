@@ -12,7 +12,7 @@ type questionType = {
   isStar: boolean;
   isDelete: boolean;
 };
-export function useLoadQuestionList(opt: Partial<questionType> = {}) {
+export function useLoadQuestionPageList(opt: Partial<questionType> = {}) {
   const [searchParams] = useSearchParams();
   const params = searchParams.get(LIST_SEARCH_PARAM_KEY) || '';
   const pageNo = parseInt(searchParams.get(LIST_PAGE_PARAM_KEY) || '') || 1;

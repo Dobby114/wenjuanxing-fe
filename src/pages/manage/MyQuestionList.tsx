@@ -1,14 +1,70 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { FC } from 'react';
 import QuestionList from '../../components/QuestionList';
 import style from './Common.module.scss';
 import { Empty, Spin } from 'antd';
 import ListSearch from '../../components/ListSearch';
-import { useLoadQuestionList } from '../../hooks/useLoadQuestionList';
+import { getQuestionList } from '../../services/questions';
+import { useRequest } from 'ahooks';
+import { useSearchParams } from 'react-router-dom';
+import { LIST_SEARCH_PARAM_KEY, LIST_PAGE_SIZE_DEFAULT } from '../../constant';
 const MyQuestionList: FC = () => {
-  const { data, loading } = useLoadQuestionList();
-  const mockQuestionData = data?.list || [];
-  // const total = data?.total || 0;
+  // 下拉加载更多，不用改变url，
+  // 1. 同样采用通过pageNo来加载的方式，每次加载pageNo+1
+  // 2. 当滑动到窗口底部，触发加载
+  // 2. 用一个列表，存储已经加载的数据，当list.length>=total,时表示数据加载完毕
+  const [searchParams] = useSearchParams();
+  const keywords = searchParams.get(LIST_SEARCH_PARAM_KEY) || '';
+  const mockQuestionData = useRef([]);
+  // const [loadable, setLoadable] = useState(false);
+  const [total, setTotal] = useState(0);
+  const pageNo = useRef(1);
+  const loadable = mockQuestionData.current.length < total;
+  const loadPromptRef = useRef(null);
+  const { loading, run: loadPage } = useRequest(
+    async () => {
+      const res: any = await getQuestionList({
+        pageNo: pageNo.current,
+        pageSize: LIST_PAGE_SIZE_DEFAULT,
+        keywords: keywords,
+      });
+      // setTotal(res.total || 0);
+      return res;
+    },
+    {
+      manual: true,
+      onSuccess: res => {
+        const { list = [], total = 0 } = res;
+        setTotal(total);
+        mockQuestionData.current = mockQuestionData.current.concat(list);
+        pageNo.current++;
+        // 因为不能立刻拿到mockQuestionData的真是长度，所以这里不能直接比较
+      },
+    }
+  );
+  function handleTryLoad(entries: any) {
+    if (entries[0]?.isIntersecting && loadable) {
+      loadPage();
+    }
+  }
+  // // 触底交叉加载
+  const observer = new IntersectionObserver(handleTryLoad);
+  // 初始化加载
+  useEffect(() => {
+    mockQuestionData.current = [];
+    pageNo.current = 1;
+    loadPage();
+  }, [keywords]);
+  useEffect(() => {
+    if (loadPromptRef.current) {
+      observer.observe(loadPromptRef.current);
+    }
+    return () => {
+      if (loadPromptRef.current) {
+        observer.unobserve(loadPromptRef.current);
+      }
+    };
+  }, [pageNo.current]); // 空数组表示只在挂载和卸载时运行
 
   return (
     <div className={style.container}>
@@ -19,20 +75,26 @@ const MyQuestionList: FC = () => {
             <ListSearch loading={loading} />
           </div>
         </div>
-        {/* 问卷列表 */}
-        {loading && (
-          <div style={{ textAlign: 'center' }}>
-            <Spin />{' '}
-          </div>
-        )}
-        {!loading &&
-          mockQuestionData.length > 0 &&
-          mockQuestionData.map((item: any) => {
-            return <QuestionList key={item._id} {...item}></QuestionList>;
-          })}
-        {!loading && mockQuestionData.length <= 0 && <Empty description="暂无数据" />}
+        {/* 问卷列表 loading有问题 */}
+        <div className={style.body}>
+          {loading && (
+            <div className={style.loading}>
+              <Spin />
+            </div>
+          )}
+          {mockQuestionData.current.length > 0 && (
+            <div>
+              {mockQuestionData.current.map((item: any) => {
+                return <QuestionList key={item._id} {...item}></QuestionList>;
+              })}
+              <div ref={loadPromptRef} className={style.footer}>
+                {loadable ? 'loader more... 上滑加载更多...' : '没有更多了...'}
+              </div>
+            </div>
+          )}
+          {!loading && mockQuestionData.current.length <= 0 && <Empty description="暂无数据" />}
+        </div>
       </div>
-      <div className={style.footer}>loader more... 上滑加载更多...</div>
     </div>
   );
 };
