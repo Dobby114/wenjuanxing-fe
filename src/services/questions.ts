@@ -25,3 +25,9 @@ export async function getQuestionList(params: Partial<searchParams>): Promise<da
   const data: dataType = await axios.get(url, { params });
   return data;
 }
+// 更新单个问卷信息
+export async function updateSingleQuestion(id: string, opt: dataType): Promise<dataType> {
+  const url = `/api/question/${id}`;
+  const data: dataType = await axios.patch(url, opt);
+  return data;
+}

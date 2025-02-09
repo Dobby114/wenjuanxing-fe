@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FC } from 'react';
 import style from './QuestionList.module.scss';
-import { Card, Space, Tag, Button, Popconfirm } from 'antd';
+import { Card, Space, Tag, Button, Popconfirm, message } from 'antd';
 import {
   CopyOutlined,
   DeleteOutlined,
@@ -11,6 +11,8 @@ import {
   StarOutlined,
 } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
+import { updateSingleQuestion } from '../services/questions';
+import { useRequest } from 'ahooks';
 
 interface propsType {
   _id: number; //用_id的原因是，符合mongoDB的返回规范
@@ -22,8 +24,23 @@ interface propsType {
 }
 const QuestionList: FC<propsType> = (props: propsType) => {
   const navigate = useNavigate();
+  const [messageApi, contextHolder] = message.useMessage();
   const { _id, title, isPublished, isStar, answerCount, createTime } = props;
+  const [isStarStated, setIsStarStated] = useState(isStar);
+  const { loading, run: handleQuestionChange } = useRequest(
+    async data => {
+      await updateSingleQuestion(_id.toString(), { ...data });
+    },
+    {
+      manual: true,
+      onSuccess: () => {
+        setIsStarStated(!isStarStated);
+        messageApi.success('更新成功！');
+      },
+    }
+  );
   return (
+    // {contextHolder}
     <Card
       className={style.card}
       title={title}
@@ -38,6 +55,7 @@ const QuestionList: FC<propsType> = (props: propsType) => {
       }
     >
       <div className={style.content}>
+        {contextHolder}
         <Space size="small">
           <Button
             type="text"
@@ -58,9 +76,19 @@ const QuestionList: FC<propsType> = (props: propsType) => {
         <Space size="small">
           <Button
             type="text"
-            icon={isStar ? <StarFilled style={{ color: 'yellow' }} /> : <StarOutlined />}
+            icon={
+              isStarStated ? (
+                <StarFilled style={{ color: isStarStated && 'yellow' }} />
+              ) : (
+                <StarOutlined />
+              )
+            }
+            onClick={() => {
+              handleQuestionChange({ isStar: !isStarStated });
+            }}
+            loading={loading}
           >
-            {isStar ? '取消标星' : '标星'}
+            {isStarStated ? '取消标星' : '标星'}
           </Button>
           <Button type="text" icon={<CopyOutlined />}>
             复制
