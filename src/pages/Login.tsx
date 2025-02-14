@@ -1,23 +1,26 @@
 import React from 'react';
 import { FC, useEffect } from 'react';
-import { useTitle } from 'ahooks';
+import { useTitle, useRequest } from 'ahooks';
 // import type { FormProps } from 'antd';
-import { Typography, Form, Input, Button, Checkbox } from 'antd';
+import { Typography, Form, Input, Button, Checkbox, message } from 'antd';
 import styles from './Login.module.scss';
-import { Link } from 'react-router-dom';
-import { REGISTER_PATHNAME } from '../router';
+import { Link, useNavigate } from 'react-router-dom';
+import { REGISTER_PATHNAME, MANAGER_INDEX_PATHNAME } from '../router';
 import { PASSWORD_KEY, USERNAME_KEY } from '../constant';
 import { useForm } from 'antd/es/form/Form';
+import { userLogin } from '../services/user';
+import { setUserToken } from '../utils/user-tokens';
 type FieldType = {
-  username?: string;
-  password?: string;
+  username: string;
+  password: string;
   remember?: string;
 };
 const Login: FC = () => {
   useTitle('登陆');
+  const nav = useNavigate();
   const { Title } = Typography;
   const [form] = useForm();
-  // TODO:按道理来说，用户信息不应该存储在localStorage里的，应该存储在后端数据库中！后期再做
+  const [messageApi, contextHolder] = message.useMessage();
   function rememberUser(username: string, password: string) {
     localStorage.setItem(USERNAME_KEY, username);
     localStorage.setItem(PASSWORD_KEY, password);
@@ -36,6 +39,21 @@ const Login: FC = () => {
     // console.log(username, password);
     form.setFieldsValue({ username, password });
   }, []);
+  const { loading: loginLoading, run: handleLogin } = useRequest(
+    async (data: FieldType) => {
+      const result = await userLogin(data);
+      return result;
+    },
+    {
+      manual: true,
+      onSuccess: res => {
+        // TODO: 消息提示没生效！！！
+        messageApi.success('登陆成功！');
+        setUserToken(res.token || '');
+        nav(MANAGER_INDEX_PATHNAME);
+      },
+    }
+  );
   function onFinish(values: FieldType) {
     // console.log('生效');
     const { username, password, remember } = values;
@@ -44,6 +62,7 @@ const Login: FC = () => {
     } else {
       forgetUser();
     }
+    handleLogin(values);
   }
 
   function onFinishFailed(failedInfo: any) {
@@ -51,6 +70,7 @@ const Login: FC = () => {
   }
   return (
     <div className={styles.container}>
+      {contextHolder}
       <div className={styles.main}>
         <div className={styles.title}>
           <Title level={3}>欢迎使用 造梦问卷</Title>
@@ -98,7 +118,7 @@ const Login: FC = () => {
 
             <Form.Item label={null} noStyle>
               <div className={styles.submit}>
-                <Button type="primary" htmlType="submit" size="large">
+                <Button type="primary" htmlType="submit" size="large" loading={loginLoading}>
                   登陆
                 </Button>
               </div>

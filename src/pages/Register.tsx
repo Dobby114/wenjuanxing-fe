@@ -1,24 +1,26 @@
 import React from 'react';
 import { FC, useEffect } from 'react';
-import { useTitle } from 'ahooks';
+import { useTitle, useRequest } from 'ahooks';
 // import type { FormProps } from 'antd';
-import { Typography, Form, Input, Button, Checkbox } from 'antd';
+import { Typography, Form, Input, Button, Checkbox, message } from 'antd';
 import styles from './Login.module.scss';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { LOGIN_PATHNAME } from '../router';
 import { PASSWORD_KEY, USERNAME_KEY } from '../constant';
 import { useForm } from 'antd/es/form/Form';
+import { userRegister } from '../services/user';
 type FieldType = {
-  username?: string;
-  password?: string;
+  username: string;
+  password: string;
   remember?: string;
   confirmedPassword?: string;
 };
 const Login: FC = () => {
   useTitle('注册');
+  const nav = useNavigate();
   const { Title } = Typography;
   const [form] = useForm();
-  // TODO:按道理来说，用户信息不应该存储在localStorage里的，应该存储在后端数据库中！后期再做
+  const [messageApi, contextHolder] = message.useMessage();
   function rememberUser(username: string, password: string) {
     localStorage.setItem(USERNAME_KEY, username);
     localStorage.setItem(PASSWORD_KEY, password);
@@ -37,6 +39,19 @@ const Login: FC = () => {
     // console.log(username, password);
     form.setFieldsValue({ username, password });
   }, []);
+  const { loading: registerLoading, run: handleRegister } = useRequest(
+    async (data: FieldType) => {
+      await userRegister(data);
+    },
+    {
+      manual: true,
+      onSuccess: () => {
+        // TODO: 消息提示没生效！！！
+        messageApi.success('注册成功');
+        nav(LOGIN_PATHNAME);
+      },
+    }
+  );
   function onFinish(values: FieldType) {
     // console.log('生效');
     const { username, password, remember } = values;
@@ -45,6 +60,7 @@ const Login: FC = () => {
     } else {
       forgetUser();
     }
+    handleRegister({ username, password });
   }
 
   function onFinishFailed(failedInfo: any) {
@@ -52,6 +68,7 @@ const Login: FC = () => {
   }
   return (
     <div className={styles.container}>
+      {contextHolder}
       <div className={styles.main}>
         <div className={styles.title}>
           <Title level={3}>注册账号</Title>
@@ -120,8 +137,8 @@ const Login: FC = () => {
 
             <Form.Item label={null} noStyle>
               <div className={styles.submit}>
-                <Button type="primary" htmlType="submit" size="large">
-                  登陆
+                <Button type="primary" htmlType="submit" size="large" loading={registerLoading}>
+                  注册
                 </Button>
               </div>
             </Form.Item>
