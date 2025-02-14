@@ -31,3 +31,15 @@ export async function updateSingleQuestion(id: string, opt: dataType): Promise<d
   const data: dataType = await axios.patch(url, opt);
   return data;
 }
+// 复制问卷
+export async function duplicateQuestion(id: string): Promise<dataType> {
+  const url = `/api/question/duplicate/${id}`;
+  const data: dataType = await axios.post(url);
+  return data;
+}
+// 彻底删除问卷
+export async function deleteQuestion(idList: string[]): Promise<dataType> {
+  const url = `/api/question`;
+  const data: dataType = await axios.delete(url, { data: { idList } });
+  return data;
+}

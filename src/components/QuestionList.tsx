@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { FC } from 'react';
 import style from './QuestionList.module.scss';
-import { Card, Space, Tag, Button, Popconfirm, message } from 'antd';
+import { Card, Space, Tag, Button, Popconfirm, message, Modal } from 'antd';
 import {
   CopyOutlined,
   DeleteOutlined,
@@ -11,7 +11,7 @@ import {
   StarOutlined,
 } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
-import { updateSingleQuestion } from '../services/questions';
+import { updateSingleQuestion, duplicateQuestion } from '../services/questions';
 import { useRequest } from 'ahooks';
 
 interface propsType {
@@ -25,22 +25,56 @@ interface propsType {
 const QuestionList: FC<propsType> = (props: propsType) => {
   const navigate = useNavigate();
   const [messageApi, contextHolder] = message.useMessage();
+  const [modal, deleteModalContextHolder] = Modal.useModal();
   const { _id, title, isPublished, isStar, answerCount, createTime } = props;
-  const [isStarStated, setIsStarStated] = useState(isStar);
-  const { loading, run: handleQuestionChange } = useRequest(
+  const [isStated, setIsStated] = useState(isStar);
+  const [isDeleted, setIsDeleted] = useState(false);
+  const { loading: starChangeLoading, run: handleQuestionChange } = useRequest(
     async data => {
       await updateSingleQuestion(_id.toString(), { ...data });
     },
     {
       manual: true,
       onSuccess: () => {
-        setIsStarStated(!isStarStated);
+        setIsStated(!isStated);
+        setIsDeleted(true);
         messageApi.success('更新成功！');
       },
     }
   );
+  const { loading: duplicateLoading, run: handleDuplicate } = useRequest(
+    async () => {
+      const result = await duplicateQuestion(_id.toString());
+      return result;
+    },
+    {
+      manual: true,
+      onSuccess: res => {
+        if (res?._id) {
+          // TODO: message没弹出来，待解决
+          messageApi.success('复制成功！');
+          navigate(`/question/edit/${res._id}`);
+        }
+      },
+    }
+  );
+  const deleteButtonConfig = {
+    title: '删除问卷',
+    content: <div>确认删除问卷 {title} 吗？</div>,
+    okText: '确定',
+    cancelText: '取消',
+    onOk: () => {
+      handleQuestionChange({ isDelete: true });
+    },
+  };
+  function handleDelete() {
+    modal.confirm(deleteButtonConfig);
+  }
+  // mock删除
+  if (isDeleted) {
+    return <div>{contextHolder}</div>;
+  }
   return (
-    // {contextHolder}
     <Card
       className={style.card}
       title={title}
@@ -54,8 +88,9 @@ const QuestionList: FC<propsType> = (props: propsType) => {
         </Space>
       }
     >
+      {contextHolder}
+      {deleteModalContextHolder}
       <div className={style.content}>
-        {contextHolder}
         <Space size="small">
           <Button
             type="text"
@@ -77,27 +112,29 @@ const QuestionList: FC<propsType> = (props: propsType) => {
           <Button
             type="text"
             icon={
-              isStarStated ? (
-                <StarFilled style={{ color: isStarStated && 'yellow' }} />
-              ) : (
-                <StarOutlined />
-              )
+              isStated ? <StarFilled style={{ color: isStated && 'yellow' }} /> : <StarOutlined />
             }
             onClick={() => {
-              handleQuestionChange({ isStar: !isStarStated });
+              handleQuestionChange({ isStar: !isStated });
             }}
-            loading={loading}
+            loading={starChangeLoading}
           >
-            {isStarStated ? '取消标星' : '标星'}
+            {isStated ? '取消标星' : '标星'}
           </Button>
-          <Button type="text" icon={<CopyOutlined />}>
-            复制
-          </Button>
-          <Popconfirm title="删除问卷" description={`确定删除问卷${_id}吗? `}>
-            <Button type="text" icon={<DeleteOutlined />}>
-              删除
+          <Popconfirm
+            title="复制问卷"
+            description={`确定复制问卷 ${title} 吗? `}
+            okText="确定"
+            cancelText="取消"
+            onConfirm={handleDuplicate}
+          >
+            <Button type="text" icon={<DeleteOutlined />} loading={duplicateLoading}>
+              复制
             </Button>
           </Popconfirm>
+          <Button type="text" icon={<CopyOutlined />} onClick={handleDelete}>
+            删除
+          </Button>
         </Space>
       </div>
     </Card>

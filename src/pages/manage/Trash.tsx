@@ -7,6 +7,8 @@ import { useState } from 'react';
 import ListSearch from '../../components/ListSearch';
 import { useLoadQuestionPageList } from '../../hooks/useLoadQuestionPageList';
 import ListPage from '../../components/ListPage';
+import { updateSingleQuestion, deleteQuestion } from '../../services/questions';
+import { useRequest } from 'ahooks';
 interface questionDataType {
   _id: number;
   title: string;
@@ -17,10 +19,11 @@ interface questionDataType {
 }
 const Trash: FC = () => {
   const [selectedRows, setSelectedRows] = useState<questionDataType[]>([]);
-  const [selectedRowKeys, setSelectedRowKeys] = useState<number[]>([]);
+  const [selectedRowKeys, setSelectedRowKeys] = useState<string[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalConfig, setModalConfig] = useState({});
   const [messageApi, contextHolder] = message.useMessage();
-  const { data, loading } = useLoadQuestionPageList({ isDelete: true });
+  const { data, loading, refresh } = useLoadQuestionPageList({ isDelete: true });
   const mockQuestionData = data?.list || [];
   const total = data?.total || 0;
   // 不设置ts类型的话，配置属性会报错！！！
@@ -58,14 +61,14 @@ const Trash: FC = () => {
       render: (_, record) => {
         return (
           <Popconfirm
-            title="删除问卷"
-            description={`是否确认删除${record.title}?`}
+            title="彻底删除问卷！"
+            description={`是否确认彻底删除 ${record.title} ?`}
             onConfirm={() => handleDelete([record._id])}
             okText="确认"
             cancelText="取消"
           >
-            <Button size="small" danger>
-              删除
+            <Button size="small" danger loading={deleteLoading}>
+              彻底删除
             </Button>
           </Popconfirm>
         );
@@ -73,27 +76,87 @@ const Trash: FC = () => {
       align: 'center',
     },
   ];
-  function handleDelete(keys: number[]) {
-    console.log(keys);
-    messageApi.success('删除成功');
+
+  const { loading: deleteLoading, run: handleDelete } = useRequest(
+    async (idList: string[]) => {
+      await deleteQuestion(idList);
+    },
+    {
+      manual: true,
+      onSuccess() {
+        messageApi.success('彻底删除成功！');
+        refresh();
+        clearTable();
+      },
+    }
+  );
+  const { loading: recoverLoading, run: handleRecover } = useRequest(
+    async (keys: string[]) => {
+      for (const key of keys) {
+        await updateSingleQuestion(key.toString(), { isDelete: false });
+      }
+    },
+    {
+      manual: true,
+      onSuccess() {
+        messageApi.success('恢复成功！');
+        refresh();
+        clearTable();
+      },
+    }
+  );
+  function clearTable() {
+    setSelectedRows([]);
+    setSelectedRowKeys([]);
   }
   // 将复杂元素定义为一个变量
   const TableEl = (
     <div>
-      <Button
-        type="primary"
-        danger
-        disabled={selectedRows.length ? false : true}
-        onClick={() => {
-          if (selectedRows.length) {
-            setIsModalOpen(true);
-          } else {
-            messageApi.error('请先选择数据！');
-          }
-        }}
-      >
-        批量删除
-      </Button>
+      <Space style={{ marginBottom: '10px' }}>
+        <Button
+          type="default"
+          disabled={selectedRows.length ? false : true}
+          loading={recoverLoading}
+          onClick={() => {
+            if (selectedRows.length) {
+              setModalConfig({
+                title: '是否确认恢复以下问卷？',
+                onOk: () => {
+                  handleRecover(selectedRowKeys);
+                  setIsModalOpen(false);
+                },
+              });
+              setIsModalOpen(true);
+            } else {
+              messageApi.error('请先选择数据！');
+            }
+          }}
+        >
+          恢复
+        </Button>
+        <Button
+          type="primary"
+          danger
+          disabled={selectedRows.length ? false : true}
+          loading={deleteLoading}
+          onClick={() => {
+            if (selectedRows.length) {
+              setModalConfig({
+                title: '是否确认删除以下问卷？',
+                onOk: () => {
+                  handleDelete(selectedRowKeys);
+                  setIsModalOpen(false);
+                },
+              });
+              setIsModalOpen(true);
+            } else {
+              messageApi.error('请先选择数据！');
+            }
+          }}
+        >
+          彻底删除
+        </Button>
+      </Space>
       <Table
         columns={columns}
         dataSource={mockQuestionData}
@@ -115,16 +178,11 @@ const Trash: FC = () => {
     <div className={style.container}>
       {contextHolder}
       <Modal
-        title="是否确认删除以下问卷？"
         open={isModalOpen}
-        onOk={() => {
-          const selectedKeys = selectedRows.map(item => item._id);
-          handleDelete(selectedKeys);
-          setIsModalOpen(false);
-          setSelectedRows([]);
-          setSelectedRowKeys([]);
-        }}
         onCancel={() => setIsModalOpen(false)}
+        {...modalConfig}
+        okText="确定"
+        cancelText="取消"
       >
         <Space>
           {selectedRows.map(item => {
@@ -132,7 +190,6 @@ const Trash: FC = () => {
           })}
         </Space>
       </Modal>
-      {/* <div className={style.header}>星星问卷</div> */}
       <div className={style.content}>
         <div className={style.title}>
           <div>回收站</div>
