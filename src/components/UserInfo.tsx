@@ -1,17 +1,19 @@
 import React, { FC } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { LOGIN_PATHNAME } from '../router';
-import { useRequest } from 'ahooks';
-import { getUserInfo } from '../services/user';
 import { Space, Button } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import { removeUserToken } from '../utils/user-tokens';
+import useGetUserInfo from '../hooks/useGetUserInfo';
+import { useDispatch } from 'react-redux';
+import { logoutReducer } from '../store/userInfo';
 const UserInfo: FC = () => {
   const nav = useNavigate();
-  const { data = {} } = useRequest(getUserInfo);
-  const { userId = '', username = '' } = data;
+  const dispatch = useDispatch();
+  const { userId, username } = useGetUserInfo();
   function handleLogout() {
     removeUserToken();
+    dispatch(logoutReducer());
     nav(LOGIN_PATHNAME);
   }
   return userId ? (
@@ -21,6 +23,7 @@ const UserInfo: FC = () => {
         {username}
       </span>
       <Button type="link" onClick={handleLogout}>
+        {/* 暂无退出登陆接口，退出登陆的相关逻辑暂时都不正确 */}
         退出
       </Button>
     </Space>

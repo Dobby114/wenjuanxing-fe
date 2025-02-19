@@ -29,13 +29,13 @@ const Login: FC = () => {
     localStorage.removeItem(USERNAME_KEY);
     localStorage.removeItem(PASSWORD_KEY);
   }
-  function getUserInfo() {
+  function getRememberInfo() {
     const username = localStorage.getItem(USERNAME_KEY);
     const password = localStorage.getItem(PASSWORD_KEY);
     return { username, password };
   }
   useEffect(() => {
-    const { username, password } = getUserInfo();
+    const { username, password } = getRememberInfo();
     // console.log(username, password);
     form.setFieldsValue({ username, password });
   }, []);
