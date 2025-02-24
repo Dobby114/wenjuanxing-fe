@@ -1,0 +1,43 @@
+.container{
+    height: 100vh;
+    overflow: hidden;
+    // display: flex;
+    // flex-direction: column;
+    .header{
+        // flex:auto;
+        height: 50px;
+        background-color: #fff;
+    }
+    .content{
+        // flex: auto;
+        height: 100%;
+        display: flex;
+        justify-content: space-between;
+        background-color: rgba(0,0,0,0.08);
+        padding:20px 20px 0 20px;
+        .left{
+            background-color: #fff;
+            width: 380px;
+        }
+        .main{
+            background-color: #fff;
+            width: 380px;
+            .title{
+                height: 50px;
+                // background-color: pink;
+                text-align: center;
+                line-height: 50px;
+            }
+            .canvas-wrapper{
+                height: 100%;
+                overflow-y: scroll;
+                background-color: lightcyan;
+            }
+        }
+        .right{
+            background-color: #fff;
+            width: 380px;
+        }
+
+    }
+}

@@ -4,7 +4,8 @@ import { Spin } from 'antd';
 import { useRequest } from 'ahooks';
 import { getSingleQuestion } from '../../../services/questions';
 import { useParams } from 'react-router-dom';
-
+import styles from './index.module.scss';
+import EditCanvas from './EditCanvas';
 const Edit: FC = () => {
   const { id } = useParams();
   // 竟然真的可以实现数据函数传过来的数据都是动态变化的？！！！
@@ -13,9 +14,20 @@ const Edit: FC = () => {
   return loading ? (
     <Spin fullscreen />
   ) : (
-    <div>
-      <div>编辑问卷</div>
-      <div>{JSON.stringify(questionData)}</div>
+    <div className={styles.container}>
+      <div className={styles.header}>编辑问卷</div>
+      <div className={styles.content}>
+        <div className={styles.left}>左</div>
+        <div className={styles.main}>
+          <div className={styles.title}>{questionData?.title}</div>
+          <div className={styles['canvas-wrapper']}>
+            <div style={{ height: '1200px' }}>
+              <EditCanvas></EditCanvas>
+            </div>
+          </div>
+        </div>
+        <div className={styles.right}>右</div>
+      </div>
     </div>
   );
 };

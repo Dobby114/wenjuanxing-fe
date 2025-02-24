@@ -8,10 +8,9 @@ const QuestionLayout: FC = () => {
   const isUserDataLoaded = useLoadingUserData();
   useNavPage(isUserDataLoaded);
   return (
-    <>
-      <p>QuestionLayout</p>
+    <div style={{ height: '100vh', overflow: 'hidden' }}>
       <div>{isUserDataLoaded && <Outlet />}</div>
-    </>
+    </div>
   );
 };
 
