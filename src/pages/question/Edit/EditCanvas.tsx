@@ -1,21 +1,42 @@
 import React, { FC } from 'react';
-import QuestionInput from '../../../components/QuestionComponents/QuestionInput/Component';
-import QuestionTitle from '../../../components/QuestionComponents/QuestionTitle/Component';
 import styles from './EditCanvas.module.scss';
+import { Spin } from 'antd';
+import useGetComponentsData from '../../../hooks/useGetComponentsData';
+import { getComponentConfigByType } from '../../../components/QuestionComponents';
+import { componentInfoType } from '../../../store/components';
 
-const EditCanvas: FC = () => {
+interface propsType {
+  loading: boolean;
+}
+function getComponent(componentItem: componentInfoType) {
+  const { type, props } = componentItem;
+  const componentConfig = getComponentConfigByType(type);
+  if (componentConfig) {
+    const { Component } = componentConfig;
+    return <Component {...props} />;
+  } else {
+    return null;
+  }
+}
+const EditCanvas: FC<propsType> = ({ loading }) => {
+  const { componentsList } = useGetComponentsData();
+  if (loading) {
+    return (
+      <div style={{ textAlign: 'center', marginTop: '24px' }}>
+        <Spin></Spin>
+      </div>
+    );
+  }
   return (
     <div className={styles.canvas}>
-      <div className={styles['component-wrapper']}>
-        <div className={styles.component}>
-          <QuestionTitle level={4}></QuestionTitle>
-        </div>
-      </div>
-      <div className={styles['component-wrapper']}>
-        <div className={styles.component}>
-          <QuestionInput></QuestionInput>
-        </div>
-      </div>
+      {componentsList.map(componentItem => {
+        const { fe_id } = componentItem;
+        return (
+          <div key={fe_id} className={styles['component-wrapper']}>
+            <div className={styles.component}>{getComponent(componentItem)}</div>
+          </div>
+        );
+      })}
     </div>
   );
 };

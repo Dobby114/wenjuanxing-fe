@@ -3,11 +3,11 @@ import { Typography } from 'antd';
 import { questionTitlePropsDefault, questionTitlePropsType } from './interface';
 const QuestionTitle: FC<questionTitlePropsType> = (props: questionTitlePropsType) => {
   const { Title } = Typography;
-  const { text, level, isCenter } = { ...questionTitlePropsDefault, ...props };
+  const { text, level = 1, isCenter } = { ...questionTitlePropsDefault, ...props };
 
   return (
     <>
-      <Title level={level} style={{ textAlign: isCenter ? 'center' : 'start' }}>
+      <Title level={level as 1 | 2 | 3 | 4} style={{ textAlign: isCenter ? 'center' : 'start' }}>
         {text}
       </Title>
     </>
