@@ -4,6 +4,7 @@ import questionInputConfig, { questionInputPropsType } from './QuestionInput';
 
 // 各个组件的prop type
 export type componentPropsType = questionTitlePropsType | questionInputPropsType;
+
 // 组件的配置type
 export interface componentConfigType {
   title: string;

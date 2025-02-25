@@ -21,7 +21,7 @@ export function useLoadQuestionData() {
       manual: true,
     }
   );
-  // 判断id变化，执行ajax加载问卷数据
+  // 判断id变化，执行ajax加载问卷数据，这对吗？编辑完成后，重新加载，id没变，但是data是变了的
   useEffect(() => {
     run(id);
   }, [id]);
@@ -30,7 +30,12 @@ export function useLoadQuestionData() {
     // TODO:为什么这里没有data，就return了？
     if (!data) return;
     const { componentsList = [] } = data;
-    dispatch(resetComponentsReducer({ componentsList }));
+    // 设置默认选择的组件为列表中的第一个
+    let selectedId = '';
+    if (componentsList.length) {
+      selectedId = componentsList[0].fe_id;
+    }
+    dispatch(resetComponentsReducer({ componentsList, selectedId }));
   }, [data]);
   return { loading, error };
 }

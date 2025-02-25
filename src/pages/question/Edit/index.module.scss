@@ -9,34 +9,37 @@
         background-color: #fff;
     }
     .content{
-        // flex: auto;
         height: 100%;
         display: flex;
         justify-content: space-between;
         background-color: rgba(0,0,0,0.08);
         padding:20px 20px 0 20px;
         .left{
+            flex: auto;
             background-color: #fff;
-            width: 300px;
+            // width: 300px;
         }
         .main{
-            background-color: #fff;
-            width: 300px;
-            .title{
-                height: 50px;
-                // background-color: pink;
-                text-align: center;
-                line-height: 50px;
-            }
-            .canvas-wrapper{
-                height: 100%;
-                overflow-y: scroll;
-                background-color: lightcyan;
+            width: 40%;
+            padding:40px;
+            .wrapper{
+                background-color: #fff;
+                .title{
+                    height: 50px;
+                    text-align: center;
+                    line-height: 50px;
+                }
+                .canvas-wrapper{
+                    height: 100%;
+                    overflow-y: scroll;
+                    background-color: lightcyan;
+                }
             }
         }
         .right{
+            flex: auto;
             background-color: #fff;
-            width: 300px;
+            // width: 300px;
         }
 
     }
