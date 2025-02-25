@@ -10,7 +10,7 @@ import { useDispatch } from 'react-redux';
 interface propsType {
   loading: boolean;
 }
-function getComponent(componentItem: componentInfoType) {
+function genComponent(componentItem: componentInfoType) {
   const { type, props } = componentItem;
   const componentConfig = getComponentConfigByType(type);
   if (componentConfig) {
@@ -52,7 +52,7 @@ const EditCanvas: FC<propsType> = ({ loading }) => {
               handleChangeSelect(e, fe_id);
             }}
           >
-            <div className={styles.component}>{getComponent(componentItem)}</div>
+            <div className={styles.component}>{genComponent(componentItem)}</div>
           </div>
         );
       })}

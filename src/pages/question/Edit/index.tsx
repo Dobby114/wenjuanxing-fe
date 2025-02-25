@@ -9,6 +9,7 @@ import EditCanvas from './EditCanvas';
 import { useLoadQuestionData } from '../../../hooks/useLoadQuestionData';
 import { useDispatch } from 'react-redux';
 import { changeSelectedId } from '../../../store/components';
+import LeftPanel from './LeftPanel';
 const Edit: FC = () => {
   // const { id } = useParams();
   // 竟然真的可以实现数据函数传过来的数据都是动态变化的？！！！
@@ -23,7 +24,9 @@ const Edit: FC = () => {
     <div className={styles.container}>
       <div className={styles.header}>编辑问卷</div>
       <div className={styles.content}>
-        <div className={styles.left}>左</div>
+        <div className={styles.left}>
+          <LeftPanel />
+        </div>
         <div className={styles.main} onClick={handleClearSelect}>
           <div className={styles.wrapper}>
             <div className={styles.title}>1111测试</div>

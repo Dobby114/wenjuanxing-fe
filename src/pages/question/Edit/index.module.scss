@@ -15,8 +15,9 @@
         background-color: rgba(0,0,0,0.08);
         padding:20px 20px 0 20px;
         .left{
-            flex: auto;
+            width: 24%;
             background-color: #fff;
+            padding: 16px;
             // width: 300px;
         }
         .main{
@@ -39,6 +40,7 @@
         .right{
             flex: auto;
             background-color: #fff;
+            padding: 16px;
             // width: 300px;
         }
 
