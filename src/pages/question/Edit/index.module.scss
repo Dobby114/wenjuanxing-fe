@@ -24,6 +24,8 @@
             width: 40%;
             padding:40px;
             .wrapper{
+                height: 100%;
+                overflow-y: scroll;
                 background-color: #fff;
                 .title{
                     height: 50px;
@@ -31,8 +33,7 @@
                     line-height: 50px;
                 }
                 .canvas-wrapper{
-                    height: 100%;
-                    overflow-y: scroll;
+                    margin-bottom: 80px;
                     background-color: lightcyan;
                 }
             }

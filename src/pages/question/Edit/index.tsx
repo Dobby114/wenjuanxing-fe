@@ -31,9 +31,7 @@ const Edit: FC = () => {
           <div className={styles.wrapper}>
             <div className={styles.title}>1111测试</div>
             <div className={styles['canvas-wrapper']}>
-              <div style={{ height: '1200px' }}>
-                <EditCanvas loading={loading}></EditCanvas>
-              </div>
+              <EditCanvas loading={loading}></EditCanvas>
             </div>
           </div>
         </div>

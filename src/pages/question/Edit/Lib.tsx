@@ -2,16 +2,34 @@ import React, { FC } from 'react';
 import { Typography } from 'antd';
 import { componentConfigType, componentGroupConfig } from '../../../components/QuestionComponents';
 import styles from './Lib.module.scss';
+import { useDispatch } from 'react-redux';
+import { addComponent } from '../../../store/components';
+import { nanoid } from '@reduxjs/toolkit';
 
-function genComponent(componentConfig: componentConfigType) {
-  const { Component } = componentConfig;
-  return (
-    <div className={styles.component}>
-      <Component />
-    </div>
-  );
-}
 const Lib: FC = () => {
+  const dispatch = useDispatch();
+
+  function handleComponentClick(componentConfig: componentConfigType) {
+    const { type, title, defaultProps } = componentConfig;
+    dispatch(
+      addComponent({
+        fe_id: nanoid(), //前端生成的id，没办法生成符合后端数据库格式的id，所以用fe_id，前端可以直接控制
+        type,
+        title,
+        props: defaultProps,
+      })
+    );
+  }
+  function genComponent(componentConfig: componentConfigType) {
+    const { Component } = componentConfig;
+    return (
+      <div className={styles.wrapper} onClick={() => handleComponentClick(componentConfig)}>
+        <div className={styles.component}>
+          <Component />
+        </div>
+      </div>
+    );
+  }
   return (
     <div>
       {componentGroupConfig.map((item, index) => {
@@ -22,9 +40,7 @@ const Lib: FC = () => {
             <Title level={5} style={{ marginTop: index > 0 ? '20px' : 0 }}>
               {groupName}
             </Title>
-            <div className={styles.wrapper}>
-              {componentList.map(item => genComponent(item as componentConfigType))}
-            </div>
+            <div>{componentList.map(item => genComponent(item as componentConfigType))}</div>
           </div>
         );
       })}
