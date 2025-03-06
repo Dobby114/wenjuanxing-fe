@@ -10,6 +10,7 @@ import { useLoadQuestionData } from '../../../hooks/useLoadQuestionData';
 import { useDispatch } from 'react-redux';
 import { changeSelectedId } from '../../../store/components';
 import LeftPanel from './LeftPanel';
+import RightPanel from './RightPanel';
 const Edit: FC = () => {
   // const { id } = useParams();
   // 竟然真的可以实现数据函数传过来的数据都是动态变化的？！！！
@@ -19,6 +20,12 @@ const Edit: FC = () => {
   const { loading } = useLoadQuestionData();
   function handleClearSelect() {
     dispatch(changeSelectedId({ selectedId: '' }));
+  }
+
+  {
+    /* 左侧组件库展示的数据从写好的组中拿的，都是默认数据，不会变
+    画板和右侧组件数据拿的redux存储的componentList，包含后端数据库的和新修改的组件数据
+    */
   }
   return (
     <div className={styles.container}>
@@ -35,7 +42,9 @@ const Edit: FC = () => {
             </div>
           </div>
         </div>
-        <div className={styles.right}>右</div>
+        <div className={styles.right}>
+          <RightPanel />
+        </div>
       </div>
     </div>
   );

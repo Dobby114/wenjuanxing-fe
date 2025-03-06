@@ -31,14 +31,14 @@ const componentsSlice = createSlice({
     },
     // 使用immer来直接修改部分数据
     changeSelectedId: produce(
-      (state: componentsStateType, actions: PayloadAction<Partial<componentsStateType>>) => {
-        state.selectedId = actions.payload?.selectedId || '';
+      (draft: componentsStateType, actions: PayloadAction<Partial<componentsStateType>>) => {
+        draft.selectedId = actions.payload?.selectedId || '';
       }
     ),
     addComponent: produce(
-      (state: componentsStateType, actions: PayloadAction<componentInfoType>) => {
+      (draft: componentsStateType, actions: PayloadAction<componentInfoType>) => {
         // 当前没有选中，添加到最后并选中；当前有选中，添加到选中后面，并选中
-        const { selectedId, componentsList } = state;
+        const { selectedId, componentsList } = draft;
         const newComponent = actions.payload;
         const selectedIndex = componentsList.findIndex(item => item.fe_id === selectedId);
         if (selectedIndex < 0) {
@@ -46,11 +46,30 @@ const componentsSlice = createSlice({
         } else {
           componentsList.splice(selectedIndex + 1, 0, newComponent);
         }
-        state.selectedId = newComponent.fe_id;
+        draft.selectedId = newComponent.fe_id;
+      }
+    ),
+    // 修改组件属性
+    changeComponentProps: produce(
+      (
+        draft: componentsStateType,
+        actions: PayloadAction<{ fe_id: string; newProps: Partial<componentPropsType> }>
+      ) => {
+        const { componentsList } = draft;
+        const { fe_id, newProps } = actions.payload;
+        const currentComponent = componentsList.find(item => item.fe_id === fe_id);
+        if (currentComponent) {
+          // produce可以直接这么改？？？，直接找到list里面某个对象的属性然后修改，list里的就全改了？？？
+          currentComponent.props = {
+            ...currentComponent.props,
+            ...newProps,
+          } as componentPropsType;
+        }
       }
     ),
   },
 });
 
-export const { resetComponentsReducer, changeSelectedId, addComponent } = componentsSlice.actions;
+export const { resetComponentsReducer, changeSelectedId, addComponent, changeComponentProps } =
+  componentsSlice.actions;
 export default componentsSlice.reducer;

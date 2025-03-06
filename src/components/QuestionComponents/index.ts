@@ -10,6 +10,7 @@ export interface componentConfigType {
   title: string;
   type: string;
   Component: FC<componentPropsType>;
+  PropComponent: FC<componentPropsType>;
   defaultProps: componentPropsType;
 }
 
