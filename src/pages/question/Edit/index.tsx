@@ -1,9 +1,5 @@
 import React from 'react';
 import { FC } from 'react';
-// import { Spin } from 'antd';
-// import { useRequest } from 'ahooks';
-// import { getSingleQuestion } from '../../../services/questions';
-// import { useParams } from 'react-router-dom';
 import styles from './index.module.scss';
 import EditCanvas from './EditCanvas';
 import { useLoadQuestionData } from '../../../hooks/useLoadQuestionData';
@@ -11,11 +7,16 @@ import { useDispatch } from 'react-redux';
 import { changeSelectedId } from '../../../store/components';
 import LeftPanel from './LeftPanel';
 import RightPanel from './RightPanel';
+import { Button, Space } from 'antd';
+import ToolBar from './ToolBar';
+import { useNavigate } from 'react-router-dom';
+import { LeftOutlined, CheckOutlined } from '@ant-design/icons';
 const Edit: FC = () => {
   // const { id } = useParams();
   // 竟然真的可以实现数据函数传过来的数据都是动态变化的？！！！
   // 没有vue中那种复杂的数据类型，比如什么reactive、ref以及一些中间类型？好！
   // const { loading, data: questionData } = useRequest(() => getSingleQuestion(id as string));
+  const nav = useNavigate();
   const dispatch = useDispatch();
   const { loading } = useLoadQuestionData();
   function handleClearSelect() {
@@ -29,7 +30,31 @@ const Edit: FC = () => {
   }
   return (
     <div className={styles.container}>
-      <div className={styles.header}>编辑问卷</div>
+      <div className={styles.header}>
+        <div>
+          <Space align="center">
+            <Button
+              type="link"
+              onClick={() => {
+                nav(-1);
+              }}
+              icon={<LeftOutlined />}
+            >
+              返回
+            </Button>
+            <div className={styles.questionTitle}>问卷标题</div>
+          </Space>
+        </div>
+        <div>
+          <ToolBar />
+        </div>
+        <div>
+          <Space>
+            <Button icon={<CheckOutlined />}>保存</Button>
+            <Button type="primary">发布</Button>
+          </Space>
+        </div>
+      </div>
       <div className={styles.content}>
         <div className={styles.left}>
           <LeftPanel />

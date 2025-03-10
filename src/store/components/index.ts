@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { componentPropsType } from '../../components/QuestionComponents';
 import { produce } from 'immer';
+import { getNextIndex } from './utils';
 
 // 只存放需要渲染组件列表信息
 export interface componentInfoType {
@@ -67,9 +68,28 @@ const componentsSlice = createSlice({
         }
       }
     ),
+    // 删除选中的组件,并根据逻辑选中下一个组件
+    removeComponent: produce((draft: componentsStateType) => {
+      const { selectedId, componentsList } = draft;
+      const currentIndex = componentsList.findIndex(item => item.fe_id === selectedId);
+      // 没有找到符合条件的，返回-1
+      if (currentIndex < 0) return;
+      // 找到下一个选中的组件index
+      const nextSelectedIndex = getNextIndex(currentIndex, componentsList);
+      console.log('nextSelectedIndex', nextSelectedIndex);
+      draft.selectedId =
+        (nextSelectedIndex && componentsList[Number(nextSelectedIndex)]?.fe_id) || '';
+      // 删除当前选中的组件
+      componentsList.splice(currentIndex, 1);
+    }),
   },
 });
 
-export const { resetComponentsReducer, changeSelectedId, addComponent, changeComponentProps } =
-  componentsSlice.actions;
+export const {
+  resetComponentsReducer,
+  changeSelectedId,
+  addComponent,
+  changeComponentProps,
+  removeComponent,
+} = componentsSlice.actions;
 export default componentsSlice.reducer;

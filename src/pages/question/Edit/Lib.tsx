@@ -21,9 +21,13 @@ const Lib: FC = () => {
     );
   }
   function genComponent(componentConfig: componentConfigType) {
-    const { Component } = componentConfig;
+    const { Component, title } = componentConfig;
     return (
-      <div className={styles.wrapper} onClick={() => handleComponentClick(componentConfig)}>
+      <div
+        className={styles.wrapper}
+        onClick={() => handleComponentClick(componentConfig)}
+        key={title}
+      >
         <div className={styles.component}>
           <Component />
         </div>
