@@ -18,7 +18,7 @@ export default function useNavPage(isUserInfoLoad: boolean) {
     if (!isUserInfoLoad) {
       return;
     } else if (userId) {
-      console.log(userId);
+      // console.log(userId);
       //登陆状态，处理访问登陆页或者注册页的情况
       if ([LOGIN_PATHNAME, REGISTER_PATHNAME].includes(pathname)) {
         nav(MANAGER_INDEX_PATHNAME);

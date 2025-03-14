@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useState, useEffect } from 'react';
 import { Button, Space, Tooltip } from 'antd';
 import {
   DeleteOutlined,
@@ -14,8 +14,9 @@ import {
 } from '@ant-design/icons';
 import { nanoid } from '@reduxjs/toolkit';
 import { produce } from 'immer';
-import { removeComponent } from '../../../store/components';
+import { removeComponent, toggleComponentHidden } from '../../../store/components';
 import { useDispatch } from 'react-redux';
+import useGetComponentsData from '../../../hooks/useGetComponentsData';
 
 // interface ToolType {
 //   toolId: string;
@@ -27,7 +28,7 @@ import { useDispatch } from 'react-redux';
 //   isSwitchable?: boolean;
 // }
 const ToolBar: FC = () => {
-  //   const [messageApi, contextHolder] = message.useMessage();
+  const { selectedId, selectedComponent } = useGetComponentsData();
   const dispatch = useDispatch();
   const [toolData, setToolDate] = useState([
     {
@@ -47,6 +48,9 @@ const ToolBar: FC = () => {
       changedIcon: <EyeOutlined />,
       defaultState: true,
       isSwitchable: true,
+      onClick: () => {
+        dispatch(toggleComponentHidden());
+      },
     },
     {
       toolId: nanoid(5),
@@ -64,8 +68,18 @@ const ToolBar: FC = () => {
     { toolId: nanoid(5), text: '往前一步', icon: <UndoOutlined /> },
     { toolId: nanoid(5), text: '后退一步', icon: <RedoOutlined /> },
   ]);
+  useEffect(() => {
+    const { isHidden } = selectedComponent || {};
+    setToolDate(
+      produce(toolData => {
+        const hiddenToolEl = toolData.find(item => item.text === '隐藏');
+        if (!hiddenToolEl) return;
+        hiddenToolEl.defaultState = !isHidden;
+      })
+    );
+  }, [selectedId]);
   function getToolIconEl(item: any) {
-    const { toolId, isSwitchable } = item;
+    const { isSwitchable } = item;
     let iconEl;
     let text;
     if (isSwitchable) {
@@ -76,43 +90,17 @@ const ToolBar: FC = () => {
       iconEl = item.icon;
       text = item.text;
     }
-    return { toolId, iconEl, text, isSwitchable };
+    return { iconEl, text, isSwitchable };
   }
-  function handleToolClick(
-    toolId: string,
-    text: string,
-    isSwitchable: boolean = false,
-    onClick: () => void = () => {}
-  ) {
-    if (onClick) {
-      onClick();
-    }
-    if (isSwitchable) {
-      setToolDate(
-        produce(toolData => {
-          const currentTool = toolData.find(item => item.toolId === toolId);
-          if (currentTool) {
-            currentTool.defaultState = !currentTool.defaultState;
-          }
-        })
-      );
-    }
-    // messageApi.success(text);
-  }
+
   return (
     <>
-      {/* {contextHolder} */}
       <Space size="middle">
         {toolData.map(item => {
-          const { isSwitchable, toolId, onClick } = item;
+          const { toolId, onClick } = item;
           const { iconEl, text } = getToolIconEl(item);
           return (
-            <div
-              key={item.toolId}
-              onClick={() => {
-                handleToolClick(toolId, text, isSwitchable, onClick);
-              }}
-            >
+            <div key={toolId} onClick={onClick}>
               <Tooltip title={text}>
                 <Button icon={iconEl} shape="circle"></Button>
               </Tooltip>

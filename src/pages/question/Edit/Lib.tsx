@@ -17,6 +17,7 @@ const Lib: FC = () => {
         type,
         title,
         props: defaultProps,
+        isHidden: false,
       })
     );
   }

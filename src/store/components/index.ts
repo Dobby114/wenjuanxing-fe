@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { componentPropsType } from '../../components/QuestionComponents';
 import { produce } from 'immer';
-import { getNextIndex } from './utils';
+import { getNextSelectedId } from './utils';
 
 // 只存放需要渲染组件列表信息
 export interface componentInfoType {
@@ -9,11 +9,12 @@ export interface componentInfoType {
   type: string;
   title: string;
   props: componentPropsType;
+  isHidden: boolean;
 }
 export interface componentsStateType {
   componentsList: componentInfoType[];
   //   其他扩展
-  selectedId?: string;
+  selectedId: string;
 }
 const INIT_STATE: componentsStateType = {
   componentsList: [],
@@ -75,12 +76,32 @@ const componentsSlice = createSlice({
       // 没有找到符合条件的，返回-1
       if (currentIndex < 0) return;
       // 找到下一个选中的组件index
-      const nextSelectedIndex = getNextIndex(currentIndex, componentsList);
-      console.log('nextSelectedIndex', nextSelectedIndex);
-      draft.selectedId =
-        (nextSelectedIndex && componentsList[Number(nextSelectedIndex)]?.fe_id) || '';
+      const nextSelectedId = getNextSelectedId(selectedId, componentsList);
+      draft.selectedId = nextSelectedId;
       // 删除当前选中的组件
       componentsList.splice(currentIndex, 1);
+    }),
+    // 修改组件属性
+    toggleComponentHidden: produce((draft: componentsStateType) => {
+      const { selectedId, componentsList } = draft;
+      const currentIndex = componentsList.findIndex(item => item.fe_id === selectedId);
+      // 没有找到符合条件的，返回-1
+      if (currentIndex < 0) return;
+      const currentComponent = componentsList[currentIndex];
+      // 切换当前组件的显示/隐藏状态
+      if (currentComponent) {
+        // 重新获取选中的组件：如果当前是显示状态，则是隐藏操作，重新获取选中组件id；如果当前是隐藏状态，则是显示操作，selectedId=fe_id
+        if (currentComponent.isHidden) {
+          draft.selectedId = selectedId;
+        } else {
+          // 这里获取下一个选中index的逻辑和删除是不同的，因为删除会改变componentList，而隐藏和显示不会改变componentList
+          // 但是隐藏状态下的组件是不可以被删除的！
+          const nextSelectedId = getNextSelectedId(selectedId, componentsList);
+          draft.selectedId = nextSelectedId;
+        }
+        currentComponent.isHidden = !currentComponent.isHidden;
+      }
+      // console.log(draft.selectedId);
     }),
   },
 });
@@ -91,5 +112,6 @@ export const {
   addComponent,
   changeComponentProps,
   removeComponent,
+  toggleComponentHidden,
 } = componentsSlice.actions;
 export default componentsSlice.reducer;
