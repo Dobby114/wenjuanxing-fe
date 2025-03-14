@@ -16,7 +16,7 @@ const Props: FC = () => {
   if (!selectedComponent) {
     return <NoProp />;
   }
-  const { type, props } = selectedComponent;
+  const { type, props, isLocked } = selectedComponent;
   const componentConfig = getComponentConfigByType(type);
   if (!componentConfig) return <NoProp />;
   const { PropComponent } = componentConfig;
@@ -27,7 +27,7 @@ const Props: FC = () => {
     console.log(props);
     dispatch(changeComponentProps({ fe_id: selectedId, newProps: props }));
   }
-  return <PropComponent {...props} onChange={handlePropsChange} />;
+  return <PropComponent {...props} onChange={handlePropsChange} disabled={isLocked} />;
 };
 
 export default Props;

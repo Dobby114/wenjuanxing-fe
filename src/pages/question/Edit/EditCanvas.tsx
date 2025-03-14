@@ -41,10 +41,12 @@ const EditCanvas: FC<propsType> = ({ loading }) => {
       {componentsList
         .filter(item => !item.isHidden)
         .map(componentItem => {
-          const { fe_id } = componentItem;
+          const { fe_id, isLocked } = componentItem;
+          // 拼接画板上每个组件样式
           const wrapperClassName = classNames({
             [styles['component-wrapper']]: true,
             [styles['selected']]: selectedId === fe_id,
+            [styles['locked']]: isLocked,
           });
           return (
             <div

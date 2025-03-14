@@ -4,7 +4,7 @@ import { Form, Input, Select, Checkbox } from 'antd';
 import { useForm } from 'antd/es/form/Form';
 
 const PropComponent: FC<questionTitlePropsType> = (props: questionTitlePropsType) => {
-  const { text, level, isCenter, onChange } = props;
+  const { text, level, isCenter, onChange, disabled } = props;
   const [form] = useForm();
   useEffect(() => {
     form.setFieldsValue({ text, level, isCenter });
@@ -21,6 +21,7 @@ const PropComponent: FC<questionTitlePropsType> = (props: questionTitlePropsType
         layout="vertical"
         initialValues={{ text, level, isCenter }}
         onFieldsChange={handleFormValueChange}
+        disabled={disabled}
       >
         <Form.Item label="标题内容" name="text">
           <Input placeholder="请输入"></Input>

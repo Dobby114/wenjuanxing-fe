@@ -4,7 +4,7 @@ import { Form, Input } from 'antd';
 import { useForm } from 'antd/es/form/Form';
 
 const PropComponent: FC<questionInputPropsType> = (props: questionInputPropsType) => {
-  const { title, placeholder, onChange } = props;
+  const { title, placeholder, onChange, disabled } = props;
   const [form] = useForm();
   useEffect(() => {
     // 监听输入的变化，给form动态赋值  vue中好像不用动态监听变化重新给表单赋值？
@@ -24,6 +24,7 @@ const PropComponent: FC<questionInputPropsType> = (props: questionInputPropsType
         form={form}
         initialValues={{ title, placeholder }}
         onValuesChange={handleFormValueChange}
+        disabled={disabled}
       >
         <Form.Item label="标题" name="title">
           <Input placeholder="请输入" />

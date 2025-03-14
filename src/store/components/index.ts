@@ -10,6 +10,7 @@ export interface componentInfoType {
   title: string;
   props: componentPropsType;
   isHidden: boolean;
+  isLocked: boolean;
 }
 export interface componentsStateType {
   componentsList: componentInfoType[];
@@ -81,13 +82,12 @@ const componentsSlice = createSlice({
       // 删除当前选中的组件
       componentsList.splice(currentIndex, 1);
     }),
-    // 修改组件属性
+    // 修改组件隐藏/显示状态
     toggleComponentHidden: produce((draft: componentsStateType) => {
       const { selectedId, componentsList } = draft;
-      const currentIndex = componentsList.findIndex(item => item.fe_id === selectedId);
+      const currentComponent = componentsList.find(item => item.fe_id === selectedId);
       // 没有找到符合条件的，返回-1
-      if (currentIndex < 0) return;
-      const currentComponent = componentsList[currentIndex];
+      if (!currentComponent) return;
       // 切换当前组件的显示/隐藏状态
       if (currentComponent) {
         // 重新获取选中的组件：如果当前是显示状态，则是隐藏操作，重新获取选中组件id；如果当前是隐藏状态，则是显示操作，selectedId=fe_id
@@ -103,6 +103,14 @@ const componentsSlice = createSlice({
       }
       // console.log(draft.selectedId);
     }),
+    // 修改组件锁定/解锁状态
+    toggleComponentLocked: produce((draft: componentsStateType) => {
+      const { selectedId, componentsList } = draft;
+      const currentComponent = componentsList.find(item => item.fe_id === selectedId);
+      if (currentComponent) {
+        currentComponent.isLocked = !currentComponent.isLocked;
+      }
+    }),
   },
 });
 
@@ -113,5 +121,6 @@ export const {
   changeComponentProps,
   removeComponent,
   toggleComponentHidden,
+  toggleComponentLocked,
 } = componentsSlice.actions;
 export default componentsSlice.reducer;
