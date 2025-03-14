@@ -1,7 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { componentPropsType } from '../../components/QuestionComponents';
 import { produce } from 'immer';
-import { getNextSelectedId } from './utils';
+import { getNextSelectedId, insertComponent } from './utils';
+import clonedeep from 'lodash.clonedeep';
+import { nanoid } from '@reduxjs/toolkit';
 
 // 只存放需要渲染组件列表信息
 export interface componentInfoType {
@@ -16,10 +18,13 @@ export interface componentsStateType {
   componentsList: componentInfoType[];
   //   其他扩展
   selectedId: string;
+  // 存储复制的组件
+  copiedComponent: componentInfoType | null;
 }
 const INIT_STATE: componentsStateType = {
   componentsList: [],
   selectedId: '',
+  copiedComponent: null,
 };
 const componentsSlice = createSlice({
   name: 'components',
@@ -43,12 +48,7 @@ const componentsSlice = createSlice({
         // 当前没有选中，添加到最后并选中；当前有选中，添加到选中后面，并选中
         const { selectedId, componentsList } = draft;
         const newComponent = actions.payload;
-        const selectedIndex = componentsList.findIndex(item => item.fe_id === selectedId);
-        if (selectedIndex < 0) {
-          componentsList.push(newComponent);
-        } else {
-          componentsList.splice(selectedIndex + 1, 0, newComponent);
-        }
+        insertComponent(selectedId, componentsList, newComponent);
         draft.selectedId = newComponent.fe_id;
       }
     ),
@@ -111,6 +111,23 @@ const componentsSlice = createSlice({
         currentComponent.isLocked = !currentComponent.isLocked;
       }
     }),
+    // 复制选中的组件
+    copySelectedComponent: produce((draft: componentsStateType) => {
+      const { selectedId, componentsList } = draft;
+      const currentComponent = componentsList.find(item => item.fe_id === selectedId);
+      if (currentComponent) {
+        // 必须要深度拷贝当前选中的组件，然后赋值
+        draft.copiedComponent = clonedeep(currentComponent);
+      }
+    }),
+    // 粘贴复制的组件
+    pasteCopiedComponent: produce((draft: componentsStateType) => {
+      const { selectedId, componentsList, copiedComponent } = draft;
+      if (copiedComponent === null) return;
+      copiedComponent.fe_id = nanoid(5);
+      insertComponent(selectedId, componentsList, copiedComponent);
+      draft.selectedId = copiedComponent.fe_id;
+    }),
   },
 });
 
@@ -122,5 +139,7 @@ export const {
   removeComponent,
   toggleComponentHidden,
   toggleComponentLocked,
+  copySelectedComponent,
+  pasteCopiedComponent,
 } = componentsSlice.actions;
 export default componentsSlice.reducer;

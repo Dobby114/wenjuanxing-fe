@@ -13,7 +13,7 @@ const Lib: FC = () => {
     const { type, title, defaultProps } = componentConfig;
     dispatch(
       addComponent({
-        fe_id: nanoid(), //前端生成的id，没办法生成符合后端数据库格式的id，所以用fe_id，前端可以直接控制
+        fe_id: nanoid(5), //前端生成的id，没办法生成符合后端数据库格式的id，所以用fe_id，前端可以直接控制
         type,
         title,
         props: defaultProps,

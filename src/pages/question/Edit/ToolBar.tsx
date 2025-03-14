@@ -6,7 +6,8 @@ import {
   //   DownOutlined,
   //   RedoOutlined,
   //   UndoOutlined,
-  //   BlockOutlined,
+  BlockOutlined,
+  CopyOutlined,
   EyeInvisibleOutlined,
   EyeOutlined,
   LockOutlined,
@@ -16,21 +17,14 @@ import {
   removeComponent,
   toggleComponentHidden,
   toggleComponentLocked,
+  copySelectedComponent,
+  pasteCopiedComponent,
 } from '../../../store/components';
 import { useDispatch } from 'react-redux';
 import useGetComponentsData from '../../../hooks/useGetComponentsData';
 
-// interface ToolType {
-//   toolId: string;
-//   text: string;
-//   icon: HTMLSpanElement;
-//   changedText?: string;
-//   changedIcon?: HTMLSpanElement;
-//   defaultState?: boolean;
-//   isSwitchable?: boolean;
-// }
 const ToolBar: FC = () => {
-  const { selectedComponent } = useGetComponentsData();
+  const { selectedComponent, copiedComponent } = useGetComponentsData();
   const { isHidden, isLocked } = selectedComponent || {};
   const dispatch = useDispatch();
 
@@ -60,6 +54,23 @@ const ToolBar: FC = () => {
             onClick={() => {
               dispatch(toggleComponentLocked());
             }}
+          ></Button>
+        </Tooltip>
+        <Tooltip title="复制">
+          <Button
+            icon={<CopyOutlined />}
+            onClick={() => {
+              dispatch(copySelectedComponent());
+            }}
+          ></Button>
+        </Tooltip>
+        <Tooltip title="粘贴">
+          <Button
+            icon={<BlockOutlined />}
+            onClick={() => {
+              dispatch(pasteCopiedComponent());
+            }}
+            disabled={!copiedComponent}
           ></Button>
         </Tooltip>
       </Space>

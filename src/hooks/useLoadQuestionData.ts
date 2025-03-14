@@ -36,7 +36,7 @@ export function useLoadQuestionData() {
       selectedId = componentsList[0].fe_id;
     }
     // 在这里将后台返回的所有组件信息数据全部都存到redux中去了
-    dispatch(resetComponentsReducer({ componentsList, selectedId }));
+    dispatch(resetComponentsReducer({ componentsList, selectedId, copiedComponent: null }));
   }, [data]);
   return { loading, error };
 }

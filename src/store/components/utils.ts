@@ -17,3 +17,19 @@ export function getNextSelectedId(selectedId: string, componentsList: componentI
   }
   return nextSelectedId;
 }
+
+// 插入组件
+export function insertComponent(
+  selectedId: string,
+  componentsList: componentInfoType[],
+  newComponent: componentInfoType
+) {
+  {
+    const selectedIndex = componentsList.findIndex(item => item.fe_id === selectedId);
+    if (selectedIndex < 0) {
+      componentsList.push(newComponent);
+    } else {
+      componentsList.splice(selectedIndex + 1, 0, newComponent);
+    }
+  }
+}
