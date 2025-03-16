@@ -1,9 +1,13 @@
 import type { FC } from 'react';
 import questionTitleConfig, { questionTitlePropsType } from './QuestionTitle';
 import questionInputConfig, { questionInputPropsType } from './QuestionInput';
+import questionParagraphConfig, { questionParagraphPropsType } from './QuestionParagraph';
 
 // 各个组件的prop type
-export type componentPropsType = questionTitlePropsType | questionInputPropsType;
+export type componentPropsType =
+  | questionTitlePropsType
+  | questionInputPropsType
+  | questionParagraphPropsType;
 
 // 组件的配置type
 export interface componentConfigType {
@@ -18,6 +22,7 @@ export interface componentConfigType {
 const componentConfigList: componentConfigType[] = [
   questionTitleConfig as componentConfigType,
   questionInputConfig as componentConfigType,
+  questionParagraphConfig as componentConfigType,
 ];
 // 组件分组
 export const componentGroupConfig = [
@@ -29,7 +34,7 @@ export const componentGroupConfig = [
   {
     groupId: 'input',
     groupName: '用户输入',
-    componentList: [questionInputConfig],
+    componentList: [questionInputConfig, questionParagraphConfig],
   },
 ];
 // 页面通过匹配type来获取组件
