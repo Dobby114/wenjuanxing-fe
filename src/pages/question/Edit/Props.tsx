@@ -24,7 +24,7 @@ const Props: FC = () => {
   function handlePropsChange(props: componentPropsType) {
     // PropComponent 传递来的最新的form数据
     // 统一修改redux中的数据
-    console.log(props);
+    // console.log(props);
     dispatch(changeComponentProps({ fe_id: selectedId, newProps: props }));
   }
   return <PropComponent {...props} onChange={handlePropsChange} disabled={isLocked} />;

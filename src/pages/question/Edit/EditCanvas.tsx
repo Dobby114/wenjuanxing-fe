@@ -6,6 +6,7 @@ import { getComponentConfigByType } from '../../../components/QuestionComponents
 import { componentInfoType, changeSelectedId } from '../../../store/components';
 import classNames from 'classnames';
 import { useDispatch } from 'react-redux';
+import useCanvasKeyPressBind from '../../../hooks/useCanvasKeyPressBind';
 
 interface propsType {
   loading: boolean;
@@ -22,6 +23,7 @@ function genComponent(componentItem: componentInfoType) {
 }
 
 const EditCanvas: FC<propsType> = ({ loading }) => {
+  useCanvasKeyPressBind();
   const dispatch = useDispatch();
   const { componentsList, selectedId } = useGetComponentsData();
   function handleChangeSelect(event: MouseEvent, selectedId: string) {
