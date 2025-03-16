@@ -7,11 +7,13 @@
         "antd",
         "Appstore",
         "craco",
+        "downarrow",
         "Elems",
         "Formik",
         "immer",
         "Popconfirm",
         "questioncard",
+        "uparrow",
         "wenjuanxing"
     ]
 }

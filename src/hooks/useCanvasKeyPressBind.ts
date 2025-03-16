@@ -1,6 +1,12 @@
 import { useKeyPress } from 'ahooks';
 import { useDispatch } from 'react-redux';
-import { removeComponent, copySelectedComponent, pasteCopiedComponent } from '../store/components';
+import {
+  removeComponent,
+  copySelectedComponent,
+  pasteCopiedComponent,
+  changeSelectedId,
+} from '../store/components';
+import useGetComponentsData from './useGetComponentsData';
 
 function isActiveElementValid() {
   const activeElement = document.activeElement;
@@ -24,6 +30,26 @@ export default function useCanvasKeyPressBind() {
   useKeyPress(['ctrl.v', 'meta.v'], () => {
     if (isActiveElementValid()) {
       dispatch(pasteCopiedComponent());
+    }
+  });
+  //   选中上一个
+  const { componentsList, selectedId } = useGetComponentsData();
+  const selectedComponentIndex = componentsList.findIndex(item => item.fe_id === selectedId);
+  useKeyPress('uparrow', () => {
+    if (isActiveElementValid()) {
+      if (selectedComponentIndex < 0) return;
+      if (selectedComponentIndex === 0) return;
+      const nextComponent = componentsList[selectedComponentIndex - 1];
+      dispatch(changeSelectedId({ selectedId: nextComponent.fe_id }));
+    }
+  });
+  //   选中下一个
+  useKeyPress('downarrow', () => {
+    if (isActiveElementValid()) {
+      if (selectedComponentIndex < 0) return;
+      if (selectedComponentIndex === componentsList.length - 1) return;
+      const nextComponent = componentsList[selectedComponentIndex + 1];
+      dispatch(changeSelectedId({ selectedId: nextComponent.fe_id }));
     }
   });
 }

@@ -39,7 +39,7 @@ const componentsSlice = createSlice({
     },
     // 使用immer来直接修改部分数据
     changeSelectedId: produce(
-      (draft: componentsStateType, actions: PayloadAction<Partial<componentsStateType>>) => {
+      (draft: componentsStateType, actions: PayloadAction<{ selectedId: string }>) => {
         draft.selectedId = actions.payload?.selectedId || '';
       }
     ),
