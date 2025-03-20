@@ -1,10 +1,10 @@
 import React, { FC, useEffect } from 'react';
 import { Form, Input, Checkbox } from 'antd';
-import { questionParagraphPropsDefault, questionParagraphPropsType } from './interface';
+import { questionParagraphPropsType } from './interface';
 
 const QuestionParagraph: FC<questionParagraphPropsType> = (props: questionParagraphPropsType) => {
   const [form] = Form.useForm();
-  const { text, isCenter, onChange, disabled } = { ...questionParagraphPropsDefault, ...props };
+  const { text, isCenter, onChange, disabled } = props;
   useEffect(() => {
     form.setFieldsValue({ text, isCenter });
   }, [text, isCenter]);

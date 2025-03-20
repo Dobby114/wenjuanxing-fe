@@ -5,10 +5,18 @@ import { questionParagraphPropsDefault, questionParagraphPropsType } from './int
 const Component: FC<questionParagraphPropsType> = (props: questionParagraphPropsType) => {
   const { Paragraph } = Typography;
   const { text, isCenter } = { ...questionParagraphPropsDefault, ...props };
+  const textList = text.split('\n');
   return (
     <>
-      <Paragraph style={{ textAlign: isCenter ? 'center' : 'start', color: '#646464' }}>
-        {text}
+      <Paragraph style={{ textAlign: isCenter ? 'center' : 'start' }}>
+        {textList.map((t, index) => {
+          return (
+            <span key={index}>
+              {index > 0 && <br />}
+              {t}
+            </span>
+          );
+        })}
       </Paragraph>
     </>
   );
