@@ -2,12 +2,14 @@ import type { FC } from 'react';
 import questionTitleConfig, { questionTitlePropsType } from './QuestionTitle';
 import questionInputConfig, { questionInputPropsType } from './QuestionInput';
 import questionParagraphConfig, { questionParagraphPropsType } from './QuestionParagraph';
+import questionInfoConfig, { questionInfoPropsType } from './QuestionInfo';
 
 // 各个组件的prop type
 export type componentPropsType =
   | questionTitlePropsType
   | questionInputPropsType
-  | questionParagraphPropsType;
+  | questionParagraphPropsType
+  | questionInfoPropsType;
 
 // 组件的配置type
 export interface componentConfigType {
@@ -23,13 +25,14 @@ const componentConfigList: componentConfigType[] = [
   questionTitleConfig as componentConfigType,
   questionInputConfig as componentConfigType,
   questionParagraphConfig as componentConfigType,
+  questionInfoConfig as componentConfigType,
 ];
 // 组件分组
 export const componentGroupConfig = [
   {
     groupId: 'show',
     groupName: '文本展示',
-    componentList: [questionTitleConfig],
+    componentList: [questionTitleConfig, questionInfoConfig],
   },
   {
     groupId: 'input',
