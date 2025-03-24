@@ -1,5 +1,5 @@
 
-.wrapper{
+.groupWrapper{
     margin: 12px;
     border:1px solid #fff;
     padding: 12px; 
@@ -10,7 +10,15 @@
     &:hover{
         border-color: #d9d9d9;
     }
+    // margin-bottom: 50px;
+}
+.wrapper{
+    padding-bottom: 20px;
 }
 .component{
     pointer-events: none;   //屏蔽鼠标行为！！！！
+}
+.libContainer{
+    height: 0.8*(100vh);
+    overflow-y: scroll;
 }

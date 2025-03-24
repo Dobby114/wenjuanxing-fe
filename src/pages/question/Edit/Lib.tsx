@@ -26,7 +26,7 @@ const Lib: FC = () => {
     const { Component, title } = componentConfig;
     return (
       <div
-        className={styles.wrapper}
+        className={styles.groupWrapper}
         onClick={() => handleComponentClick(componentConfig)}
         key={title}
       >
@@ -37,19 +37,21 @@ const Lib: FC = () => {
     );
   }
   return (
-    <div>
-      {componentGroupConfig.map((item, index) => {
-        const { Title } = Typography;
-        const { groupId, groupName, componentList } = item;
-        return (
-          <div key={groupId}>
-            <Title level={5} style={{ marginTop: index > 0 ? '20px' : 0 }}>
-              {groupName}
-            </Title>
-            <div>{componentList.map(item => genComponent(item as componentConfigType))}</div>
-          </div>
-        );
-      })}
+    <div className={styles.libContainer}>
+      <div className={styles.wrapper}>
+        {componentGroupConfig.map((item, index) => {
+          const { Title } = Typography;
+          const { groupId, groupName, componentList } = item;
+          return (
+            <div key={groupId}>
+              <Title level={5} style={{ marginTop: index > 0 ? '20px' : 0 }}>
+                {groupName}
+              </Title>
+              <div>{componentList.map(item => genComponent(item as componentConfigType))}</div>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 };

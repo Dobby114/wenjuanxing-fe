@@ -1,3 +1,8 @@
+/**
+ * @description 问卷 Input组件
+ * @author 廖毅慧
+ */
+
 import Component from './Component';
 import { questionInputPropsDefault } from './interface';
 import PropComponent from './PropComponent';
