@@ -3,13 +3,15 @@ import questionTitleConfig, { questionTitlePropsType } from './QuestionTitle';
 import questionInputConfig, { questionInputPropsType } from './QuestionInput';
 import questionParagraphConfig, { questionParagraphPropsType } from './QuestionParagraph';
 import questionInfoConfig, { questionInfoPropsType } from './QuestionInfo';
+import questionTextareaConfig, { questionTextareaPropsType } from './QuestionTextarea';
 
 // 各个组件的prop type
 export type componentPropsType =
   | questionTitlePropsType
   | questionInputPropsType
   | questionParagraphPropsType
-  | questionInfoPropsType;
+  | questionInfoPropsType
+  | questionTextareaPropsType;
 
 // 组件的配置type
 export interface componentConfigType {
@@ -26,6 +28,7 @@ const componentConfigList: componentConfigType[] = [
   questionInputConfig as componentConfigType,
   questionParagraphConfig as componentConfigType,
   questionInfoConfig as componentConfigType,
+  questionTextareaConfig as componentConfigType,
 ];
 // 组件分组
 export const componentGroupConfig = [
@@ -37,7 +40,7 @@ export const componentGroupConfig = [
   {
     groupId: 'input',
     groupName: '用户输入',
-    componentList: [questionInputConfig, questionParagraphConfig],
+    componentList: [questionInputConfig, questionParagraphConfig, questionTextareaConfig],
   },
 ];
 // 页面通过匹配type来获取组件
