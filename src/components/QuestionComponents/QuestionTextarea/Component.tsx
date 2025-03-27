@@ -5,11 +5,11 @@ import { questionTextareaPropsDefault, questionTextareaPropsType } from './inter
 const QuestionTextarea: FC<Partial<questionTextareaPropsType>> = (
   props: Partial<questionTextareaPropsType>
 ) => {
-  const { Title } = Typography;
+  const { Paragraph } = Typography;
   const { title, placeholder } = { ...questionTextareaPropsDefault, ...props };
   return (
     <>
-      <Title level={5}>{title}</Title>
+      <Paragraph style={{ fontWeight: 700 }}>{title}</Paragraph>
       <div>
         <Input.TextArea placeholder={placeholder}></Input.TextArea>
       </div>

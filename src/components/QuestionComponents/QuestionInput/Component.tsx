@@ -5,11 +5,11 @@ import { questionInputPropsDefault, questionInputPropsType } from './interface';
 const QuestionInput: FC<Partial<questionInputPropsType>> = (
   props: Partial<questionInputPropsType>
 ) => {
-  const { Title } = Typography;
+  const { Paragraph } = Typography;
   const { title, placeholder } = { ...questionInputPropsDefault, ...props };
   return (
     <>
-      <Title level={5}>{title}</Title>
+      <Paragraph style={{ fontWeight: 700 }}>{title}</Paragraph>
       <div>
         <Input placeholder={placeholder}></Input>
       </div>
