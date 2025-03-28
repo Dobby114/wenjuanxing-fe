@@ -1,48 +1,50 @@
 import React, { FC, useEffect } from 'react';
-import { Form, Input, Checkbox, Select, Space, Button } from 'antd';
-import { PlusOutlined, MinusCircleOutlined } from '@ant-design/icons';
-import { questionRadioPropsType, optionsType } from './interface';
+import { Button, Checkbox, Form, Input, Space } from 'antd';
+import { questionCheckboxPropsType, optionsType } from './interface';
+import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { nanoid } from 'nanoid';
 
-const PropComponent: FC<questionRadioPropsType> = (props: questionRadioPropsType) => {
-  const { title, isVertical, options, value, onChange, disabled } = props;
+const PropComponent: FC<questionCheckboxPropsType> = (props: questionCheckboxPropsType) => {
   const [form] = Form.useForm();
-  useEffect(() => {
-    form.setFieldsValue({ title, isVertical, value, options });
-    // console.log(options);
-  }, [title, isVertical, value, options]);
+  const { title, options, isVertical, onChange, disabled } = props;
+
   function handleFormChange() {
-    // console.log(form.getFieldsValue());
     if (onChange) {
       onChange(form.getFieldsValue());
     }
   }
+  useEffect(() => {
+    form.setFieldsValue({ title, options, isVertical });
+  }, [title, options, isVertical]);
   return (
     <>
       <Form
         form={form}
+        initialValues={{ title, options, isVertical }}
         layout="vertical"
-        initialValues={{ title, isVertical, value, options }}
         onFieldsChange={handleFormChange}
         disabled={disabled}
       >
-        <Form.Item label="标题" name="title">
-          <Input></Input>
+        <Form.Item name="title" label="标题">
+          <Input placeholder="请输入多选标题" />
         </Form.Item>
         <Form.Item label="选项">
           <Form.List name="options">
             {(fields, { add, remove }) => (
-              <Space direction="vertical" size="small">
+              <Space direction="vertical">
                 {fields.map(subFields => {
-                  const { name, key } = subFields;
+                  const { key, name } = subFields;
                   return (
-                    <Space key={key} align="baseline" size="small">
+                    <Space key={key} align="baseline">
+                      <Form.Item name={[name, 'checked']} valuePropName="checked">
+                        <Checkbox></Checkbox>
+                      </Form.Item>
                       <Form.Item
                         name={[name, 'label']}
                         rules={[
-                          { required: true, message: '请输入选项文字' },
+                          { required: true, message: '请输入选项名' },
                           ({ getFieldsValue }) => ({
-                            validator(rule, value) {
+                            validator(_, value) {
                               const { options } = getFieldsValue();
                               //   console.log(value);
                               let num = 0;
@@ -51,14 +53,14 @@ const PropComponent: FC<questionRadioPropsType> = (props: questionRadioPropsType
                                   num++;
                                 }
                               });
-                              return num > 1
+                              return num > 1 && value
                                 ? Promise.reject(new Error('选项名重复'))
                                 : Promise.resolve();
                             },
                           }),
                         ]}
                       >
-                        <Input placeholder="请输入选项文字"></Input>
+                        <Input placeholder="请输入" />
                       </Form.Item>
                       {key > 1 && (
                         <Button
@@ -74,9 +76,11 @@ const PropComponent: FC<questionRadioPropsType> = (props: questionRadioPropsType
                 })}
                 <Button
                   icon={<PlusOutlined />}
-                  type="link"
                   style={{ width: '100%', textAlign: 'center' }}
-                  onClick={() => add({ label: '', value: nanoid(5) })}
+                  type="link"
+                  onClick={() => {
+                    add({ label: '', value: nanoid(5) });
+                  }}
                 >
                   添加选项
                 </Button>
@@ -84,14 +88,12 @@ const PropComponent: FC<questionRadioPropsType> = (props: questionRadioPropsType
             )}
           </Form.List>
         </Form.Item>
-        <Form.Item label="默认选中" name="value">
-          <Select options={options}></Select>
-        </Form.Item>
         <Form.Item name="isVertical" valuePropName="checked">
-          <Checkbox defaultChecked={false}>竖向排列</Checkbox>
+          <Checkbox>竖向排列</Checkbox>
         </Form.Item>
       </Form>
     </>
   );
 };
+
 export default PropComponent;

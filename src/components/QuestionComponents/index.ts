@@ -5,6 +5,7 @@ import questionParagraphConfig, { questionParagraphPropsType } from './QuestionP
 import questionInfoConfig, { questionInfoPropsType } from './QuestionInfo';
 import questionTextareaConfig, { questionTextareaPropsType } from './QuestionTextarea';
 import questionRadioConfig, { questionRadioPropsType } from './QuestionRadio';
+import questionCheckboxConfig, { questionCheckboxPropsType } from './QuestionCheckbox';
 
 // 各个组件的prop type
 export type componentPropsType =
@@ -13,7 +14,8 @@ export type componentPropsType =
   | questionParagraphPropsType
   | questionInfoPropsType
   | questionTextareaPropsType
-  | questionRadioPropsType;
+  | questionRadioPropsType
+  | questionCheckboxPropsType;
 
 // 组件的配置type
 export interface componentConfigType {
@@ -32,6 +34,7 @@ const componentConfigList: componentConfigType[] = [
   questionInfoConfig as componentConfigType,
   questionTextareaConfig as componentConfigType,
   questionRadioConfig as componentConfigType,
+  questionCheckboxConfig as componentConfigType,
 ];
 // 组件分组
 export const componentGroupConfig = [
@@ -48,7 +51,7 @@ export const componentGroupConfig = [
   {
     groupId: 'select',
     groupName: '用户选择',
-    componentList: [questionRadioConfig],
+    componentList: [questionRadioConfig, questionCheckboxConfig],
   },
 ];
 // 页面通过匹配type来获取组件
