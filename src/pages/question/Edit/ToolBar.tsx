@@ -24,7 +24,7 @@ import { useDispatch } from 'react-redux';
 import useGetComponentsData from '../../../hooks/useGetComponentsData';
 
 const ToolBar: FC = () => {
-  const { selectedComponent, copiedComponent } = useGetComponentsData();
+  const { selectedId, selectedComponent, copiedComponent } = useGetComponentsData();
   const { isHidden, isLocked } = selectedComponent || {};
   const dispatch = useDispatch();
 
@@ -43,7 +43,7 @@ const ToolBar: FC = () => {
           <Button
             icon={isHidden ? <EyeOutlined /> : <EyeInvisibleOutlined />}
             onClick={() => {
-              dispatch(toggleComponentHidden());
+              dispatch(toggleComponentHidden({ fe_id: selectedId }));
             }}
           ></Button>
         </Tooltip>
@@ -52,7 +52,7 @@ const ToolBar: FC = () => {
             icon={isLocked ? <UnlockOutlined /> : <LockOutlined />}
             type={isLocked ? 'primary' : 'default'}
             onClick={() => {
-              dispatch(toggleComponentLocked());
+              dispatch(toggleComponentLocked({ fe_id: selectedId }));
             }}
           ></Button>
         </Tooltip>
