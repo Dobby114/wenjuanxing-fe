@@ -21,8 +21,15 @@ const pageInfoSlice = createSlice({
     resetPageInfoReducer: (state: pageInfoType, actions: PayloadAction<pageInfoType>) => {
       return actions.payload;
     },
+    changePageTitleReducer: (state: pageInfoType, actions: PayloadAction<string>) => {
+      const newTitle = actions.payload;
+      console.log(newTitle);
+      if (newTitle) {
+        state.title = newTitle;
+      }
+    },
   },
 });
 
-export const { resetPageInfoReducer } = pageInfoSlice.actions;
+export const { resetPageInfoReducer, changePageTitleReducer } = pageInfoSlice.actions;
 export default pageInfoSlice.reducer;

@@ -1,5 +1,5 @@
 import React from 'react';
-import { FC } from 'react';
+import { FC, useState, ChangeEvent } from 'react';
 import styles from './index.module.scss';
 import EditCanvas from './EditCanvas';
 import { useLoadQuestionData } from '../../../hooks/useLoadQuestionData';
@@ -7,10 +7,13 @@ import { useDispatch } from 'react-redux';
 import { changeSelectedId } from '../../../store/components';
 import LeftPanel from './LeftPanel';
 import RightPanel from './RightPanel';
-import { Button, Space } from 'antd';
+import { Button, Space, Typography, Input } from 'antd';
 import ToolBar from './ToolBar';
 import { useNavigate } from 'react-router-dom';
-import { LeftOutlined, CheckOutlined } from '@ant-design/icons';
+import { LeftOutlined, CheckOutlined, EditOutlined } from '@ant-design/icons';
+import useGetPageInfo from '../../../hooks/useGetPageInfo';
+import { changePageTitleReducer } from '../../../store/pageInfo';
+
 const Edit: FC = () => {
   // const { id } = useParams();
   // 竟然真的可以实现数据函数传过来的数据都是动态变化的？！！！
@@ -28,6 +31,39 @@ const Edit: FC = () => {
     画板和右侧组件数据拿的redux存储的componentList，包含后端数据库的和新修改的组件数据
     */
   }
+  // React可以在一个文件中将dom拆分
+  const TitleItem: FC = () => {
+    const { Title } = Typography;
+    const [isEdit, setIsEdit] = useState(false);
+    const { title } = useGetPageInfo();
+    function handleTitleChange(e: ChangeEvent<HTMLInputElement>) {
+      dispatch(changePageTitleReducer(e.target.value));
+    }
+    if (isEdit) {
+      return (
+        <Input
+          defaultValue={title}
+          onChange={handleTitleChange}
+          onPressEnter={() => setIsEdit(false)}
+          onBlur={() => setIsEdit(false)}
+        ></Input>
+      );
+    }
+    return (
+      <>
+        <Space align="baseline">
+          <Title className={styles.questionTitle}>{title}</Title>
+          <Button
+            icon={<EditOutlined />}
+            type="text"
+            onClick={() => {
+              setIsEdit(true);
+            }}
+          ></Button>
+        </Space>
+      </>
+    );
+  };
   return (
     <div className={styles.container}>
       <div className={styles.header}>
@@ -42,7 +78,7 @@ const Edit: FC = () => {
             >
               返回
             </Button>
-            <div className={styles.questionTitle}>问卷标题</div>
+            <TitleItem />
           </Space>
         </div>
         <div>

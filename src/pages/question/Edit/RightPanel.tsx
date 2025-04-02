@@ -4,14 +4,17 @@ import { ProfileOutlined, SettingOutlined } from '@ant-design/icons';
 import Props from './Props';
 import PageSetting from './PageSetting';
 import useGetComponentsData from '../../../hooks/useGetComponentsData';
+import { useDispatch } from 'react-redux';
+import { changeSelectedId } from '../../../store/components';
 
 enum TAB_KEYS {
   PROPS_KEY = 'props',
   SETTING_KEY = 'pageSettings',
 }
 const RightPanel: FC = () => {
+  const dispatch = useDispatch();
   const { selectedId } = useGetComponentsData();
-  const [activeTab, setActiveTab] = useState(TAB_KEYS.PROPS_KEY);
+  const [activeTab, setActiveTab] = useState(TAB_KEYS.PROPS_KEY as string);
   useEffect(() => {
     if (selectedId) {
       setActiveTab(TAB_KEYS.PROPS_KEY);
@@ -28,7 +31,18 @@ const RightPanel: FC = () => {
       children: <PageSetting />,
     },
   ];
-  return <Tabs activeKey={activeTab} items={tabItems}></Tabs>;
+  return (
+    <Tabs
+      activeKey={activeTab}
+      items={tabItems}
+      onTabClick={(key: string) => {
+        if (key === TAB_KEYS.SETTING_KEY) {
+          dispatch(changeSelectedId({ selectedId: '' }));
+        }
+        setActiveTab(key);
+      }}
+    ></Tabs>
+  );
 };
 
 export default RightPanel;
