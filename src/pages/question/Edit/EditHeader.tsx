@@ -45,8 +45,7 @@ const TitleItem: FC = () => {
     </>
   );
 };
-const EditHeader: FC = () => {
-  const nav = useNavigate();
+const SaveButton: FC = () => {
   const { id = '' } = useParams();
   const { componentsList } = useGetComponentsData();
   const pageInfo = useGetPageInfo();
@@ -68,6 +67,37 @@ const EditHeader: FC = () => {
   });
   useDebounceEffect(() => handleSave(), [componentsList, pageInfo], { wait: 2000 });
   return (
+    <Button icon={<CheckOutlined />} onClick={() => handleSave()} loading={loading}>
+      保存
+    </Button>
+  );
+};
+const PublishButton: FC = () => {
+  const { id = '' } = useParams();
+  const { run: publish, loading } = useRequest(
+    async () => {
+      if (!id) return;
+      await updateSingleQuestion(id, { isPublished: true });
+    },
+    { manual: true }
+  );
+  return (
+    <Button
+      type="primary"
+      loading={loading}
+      onClick={() => {
+        if (loading) return;
+        publish();
+      }}
+    >
+      发布
+    </Button>
+  );
+};
+const EditHeader: FC = () => {
+  const nav = useNavigate();
+
+  return (
     <div className={styles.header}>
       <div>
         <Space align="center">
@@ -88,10 +118,8 @@ const EditHeader: FC = () => {
       </div>
       <div>
         <Space>
-          <Button icon={<CheckOutlined />} onClick={() => handleSave()} loading={loading}>
-            保存
-          </Button>
-          <Button type="primary">发布</Button>
+          <SaveButton />
+          <PublishButton />
         </Space>
       </div>
     </div>
