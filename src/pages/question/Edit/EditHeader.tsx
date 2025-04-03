@@ -7,6 +7,11 @@ import { useDispatch } from 'react-redux';
 import { changePageTitleReducer } from '../../../store/pageInfo';
 import { useNavigate } from 'react-router-dom';
 import styles from './EditHeader.module.scss';
+import { useRequest, useKeyPress, useDebounceEffect } from 'ahooks';
+import { updateSingleQuestion } from '../../../services/questions';
+import useGetComponentsData from '../../../hooks/useGetComponentsData';
+import { useParams } from 'react-router-dom';
+
 const TitleItem: FC = () => {
   const dispatch = useDispatch();
   const { Title } = Typography;
@@ -42,6 +47,26 @@ const TitleItem: FC = () => {
 };
 const EditHeader: FC = () => {
   const nav = useNavigate();
+  const { id = '' } = useParams();
+  const { componentsList } = useGetComponentsData();
+  const pageInfo = useGetPageInfo();
+  function handleSave() {
+    if (!loading) {
+      save();
+    }
+  }
+  const { loading, run: save } = useRequest(
+    async () => {
+      if (!id) return;
+      await updateSingleQuestion(id, { ...pageInfo, componentsList });
+    },
+    { manual: true }
+  );
+  useKeyPress(['ctrl.s', 'meta.s'], (event: KeyboardEvent) => {
+    event.preventDefault();
+    handleSave();
+  });
+  useDebounceEffect(() => handleSave(), [componentsList, pageInfo], { wait: 2000 });
   return (
     <div className={styles.header}>
       <div>
@@ -63,7 +88,9 @@ const EditHeader: FC = () => {
       </div>
       <div>
         <Space>
-          <Button icon={<CheckOutlined />}>保存</Button>
+          <Button icon={<CheckOutlined />} onClick={() => handleSave()} loading={loading}>
+            保存
+          </Button>
           <Button type="primary">发布</Button>
         </Space>
       </div>
