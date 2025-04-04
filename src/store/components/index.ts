@@ -4,6 +4,7 @@ import { produce } from 'immer';
 import { getNextSelectedId, insertComponent } from './utils';
 import clonedeep from 'lodash.clonedeep';
 import { nanoid } from '@reduxjs/toolkit';
+import { arrayMove } from '@dnd-kit/sortable';
 
 // 只存放需要渲染组件列表信息
 // 这里都是需要和后端约定好的返回数据！！！
@@ -146,6 +147,17 @@ const componentsSlice = createSlice({
         }
       }
     ),
+    // 修改组件顺序
+    changeComponentIndex: produce(
+      (
+        draft: componentsStateType,
+        actions: PayloadAction<{ oldIndex: number; newIndex: number }>
+      ) => {
+        const { componentsList } = draft;
+        const { oldIndex, newIndex } = actions.payload;
+        draft.componentsList = arrayMove(componentsList, oldIndex, newIndex);
+      }
+    ),
   },
 });
 
@@ -160,5 +172,6 @@ export const {
   copySelectedComponent,
   pasteCopiedComponent,
   changeComponentTitle,
+  changeComponentIndex,
 } = componentsSlice.actions;
 export default componentsSlice.reducer;
