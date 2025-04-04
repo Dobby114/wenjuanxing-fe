@@ -3,7 +3,9 @@ import { storeType } from '../store';
 import { componentsStateType } from '../store/components';
 
 export default function useGetComponentsData() {
-  const componentsData: componentsStateType = useSelector((state: storeType) => state.components);
+  const componentsData: componentsStateType = useSelector(
+    (state: storeType) => state.components.present
+  );
   const { componentsList = [], selectedId, copiedComponent } = componentsData;
 
   const selectedComponent = componentsList.find(c => c.fe_id === selectedId);

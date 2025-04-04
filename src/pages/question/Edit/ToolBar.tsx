@@ -14,6 +14,8 @@ import {
   UnlockOutlined,
   ArrowUpOutlined,
   ArrowDownOutlined,
+  UndoOutlined,
+  RedoOutlined,
 } from '@ant-design/icons';
 import {
   removeComponent,
@@ -25,6 +27,7 @@ import {
 } from '../../../store/components';
 import { useDispatch } from 'react-redux';
 import useGetComponentsData from '../../../hooks/useGetComponentsData';
+import { ActionCreators as UndoActionCreators } from 'redux-undo';
 
 const ToolBar: FC = () => {
   const { selectedId, selectedComponent, copiedComponent, componentsList } = useGetComponentsData();
@@ -97,6 +100,22 @@ const ToolBar: FC = () => {
             icon={<ArrowDownOutlined />}
             onClick={handleMoveDown}
             disabled={selectedIndex === length - 1}
+          ></Button>
+        </Tooltip>
+        <Tooltip title="撤销">
+          <Button
+            icon={<UndoOutlined />}
+            onClick={() => {
+              dispatch(UndoActionCreators.undo());
+            }}
+          ></Button>
+        </Tooltip>
+        <Tooltip title="重做">
+          <Button
+            icon={<RedoOutlined />}
+            onClick={() => {
+              dispatch(UndoActionCreators.redo());
+            }}
           ></Button>
         </Tooltip>
       </Space>

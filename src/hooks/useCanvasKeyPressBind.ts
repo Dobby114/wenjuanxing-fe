@@ -7,6 +7,7 @@ import {
   changeSelectedId,
 } from '../store/components';
 import useGetComponentsData from './useGetComponentsData';
+import { ActionCreators as UndoActionCreators } from 'redux-undo';
 
 function isActiveElementValid() {
   const activeElement = document.activeElement;
@@ -53,4 +54,20 @@ export default function useCanvasKeyPressBind() {
       dispatch(changeSelectedId({ selectedId: nextComponent.fe_id }));
     }
   });
+  // 撤销
+  useKeyPress(
+    ['ctrl.z', 'meta.z'],
+    () => {
+      dispatch(UndoActionCreators.undo());
+    },
+    { exactMatch: true }
+  );
+  // 重做
+  useKeyPress(
+    ['ctrl.shift.z', 'meta.shift.z'],
+    () => {
+      dispatch(UndoActionCreators.redo());
+    },
+    { exactMatch: true }
+  );
 }
