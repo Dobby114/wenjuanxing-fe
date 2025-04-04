@@ -31,7 +31,14 @@ export function useLoadQuestionData() {
     // TODO:为什么这里没有data，就return了？
     if (!data) return;
     // 不是在stor中写了初始的默认值吗？为啥这里还要写？
-    const { title = '', desc = '', js = '', css = '', componentsList = [] } = data;
+    const {
+      title = '',
+      desc = '',
+      js = '',
+      css = '',
+      componentsList = [],
+      isPublished = false,
+    } = data;
     // 设置默认选择的组件为列表中的第一个
     let selectedId = '';
     if (componentsList.length) {
@@ -40,7 +47,7 @@ export function useLoadQuestionData() {
     // 在这里将后台返回的所有组件信息数据全部都存到redux中去了
     dispatch(resetComponentsReducer({ componentsList, selectedId, copiedComponent: null }));
     // 将pageInfo存储到redux中的stor中去
-    dispatch(resetPageInfoReducer({ title, desc, js, css }));
+    dispatch(resetPageInfoReducer({ title, desc, js, css, isPublished }));
   }, [data]);
   return { loading, error };
 }

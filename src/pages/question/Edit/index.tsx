@@ -8,12 +8,16 @@ import { changeSelectedId } from '../../../store/components';
 import LeftPanel from './LeftPanel';
 import RightPanel from './RightPanel';
 import EditHeader from './EditHeader';
+import useGetPageInfo from '../../../hooks/useGetPageInfo';
+import { useTitle } from 'ahooks';
 
 const Edit: FC = () => {
   // const { id } = useParams();
   // 竟然真的可以实现数据函数传过来的数据都是动态变化的？！！！
   // 没有vue中那种复杂的数据类型，比如什么reactive、ref以及一些中间类型？好！
   // const { loading, data: questionData } = useRequest(() => getSingleQuestion(id as string));
+  const { title } = useGetPageInfo();
+  useTitle(`问卷编辑 - ${title}`);
   const dispatch = useDispatch();
   const { loading } = useLoadQuestionData();
   function handleClearSelect() {
