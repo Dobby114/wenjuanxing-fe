@@ -10,7 +10,8 @@ import useGetComponentsData from './useGetComponentsData';
 
 function isActiveElementValid() {
   const activeElement = document.activeElement;
-  return activeElement === document.body ? true : false;
+  if (activeElement === document.body) return true;
+  if (activeElement?.matches('div[role="button"]')) return true; // 兼容dnd-kit所带来的影响
 }
 export default function useCanvasKeyPressBind() {
   const dispatch = useDispatch();
