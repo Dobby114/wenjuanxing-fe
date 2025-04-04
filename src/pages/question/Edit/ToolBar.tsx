@@ -12,6 +12,8 @@ import {
   EyeOutlined,
   LockOutlined,
   UnlockOutlined,
+  ArrowUpOutlined,
+  ArrowDownOutlined,
 } from '@ant-design/icons';
 import {
   removeComponent,
@@ -19,15 +21,25 @@ import {
   toggleComponentLocked,
   copySelectedComponent,
   pasteCopiedComponent,
+  changeComponentIndex,
 } from '../../../store/components';
 import { useDispatch } from 'react-redux';
 import useGetComponentsData from '../../../hooks/useGetComponentsData';
 
 const ToolBar: FC = () => {
-  const { selectedId, selectedComponent, copiedComponent } = useGetComponentsData();
+  const { selectedId, selectedComponent, copiedComponent, componentsList } = useGetComponentsData();
   const { isHidden, isLocked } = selectedComponent || {};
   const dispatch = useDispatch();
-
+  const selectedIndex = componentsList.findIndex(item => item.fe_id === selectedId);
+  const length = componentsList.length;
+  function handleMoveUp() {
+    if (selectedIndex === 0) return;
+    dispatch(changeComponentIndex({ oldIndex: selectedIndex, newIndex: selectedIndex - 1 }));
+  }
+  function handleMoveDown() {
+    if (selectedIndex === length - 1) return;
+    dispatch(changeComponentIndex({ oldIndex: selectedIndex, newIndex: selectedIndex + 1 }));
+  }
   return (
     <>
       <Space size="middle">
@@ -71,6 +83,20 @@ const ToolBar: FC = () => {
               dispatch(pasteCopiedComponent());
             }}
             disabled={!copiedComponent}
+          ></Button>
+        </Tooltip>
+        <Tooltip title="上移">
+          <Button
+            icon={<ArrowUpOutlined />}
+            onClick={handleMoveUp}
+            disabled={selectedIndex === 0}
+          ></Button>
+        </Tooltip>
+        <Tooltip title="下移">
+          <Button
+            icon={<ArrowDownOutlined />}
+            onClick={handleMoveDown}
+            disabled={selectedIndex === length - 1}
           ></Button>
         </Tooltip>
       </Space>
