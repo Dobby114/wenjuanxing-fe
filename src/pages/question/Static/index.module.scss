@@ -7,18 +7,27 @@ height: 100vh;
     height: 100%;
     display: flex;
     justify-content: space-between;
+    background-color: rgba(0,0,0,0.08);
     padding:20px 20px 0 20px;
     .leftWrapper{
-        flex:auto;
-        background-color: rgb(176, 254, 176);
+        width: 28%;
+        background-color: #fff;
+        padding: 16px;
+        // padding: ;
     }
     .centerWrapper{
-        flex:1;
-        background-color: rgb(252, 173, 210);
+        // flex:1;
+        width: 35%;
+        margin:0 40px;
+        padding: 16px;
+        background-color: #fff;
+        // background-color: rgb(252, 173, 210);
     }
     .rightWrapper{
         flex:auto;
-        background-color: rgb(239, 179, 255);
+        // flex: 20%;
+        background-color: #fff;
+        padding: 16px;
     }
 }
 }

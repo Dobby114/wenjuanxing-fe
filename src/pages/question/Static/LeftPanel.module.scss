@@ -1,0 +1,18 @@
+.wrapper{
+    height: 0.8*(100vh);
+    overflow-y: scroll;
+    .componentWrapperDefault{
+        margin: 20px 0;
+        border:solid 1px #fff;
+        &:hover{
+            border:solid 1px #d9d9d9;
+        }
+    }
+    .componentWrapperSelected{
+        border:solid 1px #096dd9;
+    }
+    .component{
+        padding: 8px;
+        pointer-events: none;   //屏蔽鼠标行为！！！！
+    }
+}

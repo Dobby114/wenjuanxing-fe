@@ -12,6 +12,7 @@
         "Formik",
         "immer",
         "Popconfirm",
+        "Qrcode",
         "questioncard",
         "undoable",
         "uparrow",
