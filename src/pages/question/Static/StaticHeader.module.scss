@@ -1,0 +1,17 @@
+.header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 20px;
+    .left{
+        flex:auto
+    }
+    .center{
+        flex:1;
+        text-align:center;
+    }
+    .right{
+        text-align: right;
+        flex:auto
+    }
+}
