@@ -7,16 +7,14 @@ import { useTitle } from 'ahooks';
 import styles from './index.module.scss';
 import StaticHeader from './StaticHeader';
 import LeftPanel from './LeftPanel';
-import useGetComponentsData from '../../../hooks/useGetComponentsData';
+import AnswerPage from './AnswerPage';
 const Static: FC = () => {
   const { loading } = useLoadQuestionData();
   const { title } = useGetPageInfo();
   useTitle(`数据统计 - ${title}`);
-  const { selectedId, selectedComponent } = useGetComponentsData();
-  const type = selectedComponent ? selectedComponent.type : '';
   // 状态提升
-  const [selectedComponentId, setSelectedComponentId] = useState<string>(selectedId);
-  const [selectedComponentType, setSelectedComponentType] = useState<string>(type);
+  const [selectedComponentId, setSelectedComponentId] = useState<string>('');
+  const [selectedComponentType, setSelectedComponentType] = useState<string>('');
   console.log(selectedComponentType);
   return loading ? (
     <Spin fullscreen />
@@ -33,7 +31,13 @@ const Static: FC = () => {
             setSelectedComponentType={setSelectedComponentType}
           />
         </div>
-        <div className={styles.centerWrapper}>main</div>
+        <div className={styles.centerWrapper}>
+          <AnswerPage
+            selectedComponentId={selectedComponentId}
+            setSelectedComponentId={setSelectedComponentId}
+            setSelectedComponentType={setSelectedComponentType}
+          />
+        </div>
         <div className={styles.rightWrapper}>right</div>
       </div>
     </div>

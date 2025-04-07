@@ -6,7 +6,7 @@ export * from './interface';
 
 // questionInfo组件的配置
 export default {
-  title: '输入框',
+  title: '标题描述',
   type: 'questionInfo',
   Component, //画布显示的组件
   PropComponent, //组件修改属性

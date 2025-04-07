@@ -41,6 +41,7 @@ const ListPage: FC<PropsType> = (props: PropsType) => {
       pageSize={pageSize}
       total={total}
       onChange={handlePageChange}
+      showSizeChanger={true}
     />
   );
 };
