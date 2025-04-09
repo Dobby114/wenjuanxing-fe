@@ -8,6 +8,7 @@ import styles from './index.module.scss';
 import StaticHeader from './StaticHeader';
 import LeftPanel from './LeftPanel';
 import AnswerPage from './AnswerPage';
+import ChartStat from './ChartStat';
 const Static: FC = () => {
   const { loading } = useLoadQuestionData();
   const { title } = useGetPageInfo();
@@ -15,7 +16,6 @@ const Static: FC = () => {
   // 状态提升
   const [selectedComponentId, setSelectedComponentId] = useState<string>('');
   const [selectedComponentType, setSelectedComponentType] = useState<string>('');
-  console.log(selectedComponentType);
   return loading ? (
     <Spin fullscreen />
   ) : (
@@ -38,7 +38,12 @@ const Static: FC = () => {
             setSelectedComponentType={setSelectedComponentType}
           />
         </div>
-        <div className={styles.rightWrapper}>right</div>
+        <div className={styles.rightWrapper}>
+          <ChartStat
+            selectedComponentId={selectedComponentId}
+            selectedComponentType={selectedComponentType}
+          />
+        </div>
       </div>
     </div>
   );
