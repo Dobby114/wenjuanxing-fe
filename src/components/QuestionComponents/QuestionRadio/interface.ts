@@ -23,3 +23,7 @@ export const questionRadioPropsDefault: questionRadioPropsType = {
   disabled: false,
   value: '',
 };
+
+export interface radioStatPropsType {
+  statData: Array<{ name: string; count: number }>;
+}

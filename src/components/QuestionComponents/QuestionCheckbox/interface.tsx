@@ -22,3 +22,7 @@ export const questionCheckboxPropsDefault: questionCheckboxPropsType = {
   isVertical: false,
   disabled: false,
 };
+
+export type CheckboxStatPropsType = {
+  statData: Array<{ name: string; count: number }>;
+};

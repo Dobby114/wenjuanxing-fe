@@ -9,3 +9,9 @@ export async function getAnswerPage(id: string, params: answerPagePropsType): Pr
   const data: dataType = await axios.get(url, { params });
   return data;
 }
+
+export async function getStaticRes(questionId: string, componentId: string) {
+  const url = `/api/stat/${questionId}/${componentId}`;
+  const data: dataType = await axios.get(url);
+  return data;
+}
