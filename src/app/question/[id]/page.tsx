@@ -1,12 +1,10 @@
 import React, { FC } from "react";
-// 临时引入
- import QuestionInput from "@/app/components/QuestionComponents/QuestionInput";
- import QuestionRadio from "@/app/components/QuestionComponents/QuestionRadio";
  import styles from './page.module.scss'
 
  import { Metadata } from "next"
  import getQuestion from "@/app/service/question";
  import { redirect } from "next/navigation";
+import genComponents from "@/app/components/QuestionComponents";
 //  import Error from "@/app/error/page";
 
  
@@ -45,7 +43,7 @@ const Question: FC<{params:params}> = async (props:{params:params}) => {
         // 根绝questionId从后端获取问卷数据
         const questionInfo:questionInfoType = await getQuestion(data.id)
         const {code,data:questionData} = questionInfo
-        const {_id:id,js='',css='',isDelete,isPublished} = questionData|| {}
+        const {_id:id,js='',css='',isDelete,isPublished,componentsList} = questionData|| {}
         if(code !== 0){
             throw new Error('获取问卷数据失败')
         }else if(isDelete){
@@ -53,14 +51,17 @@ const Question: FC<{params:params}> = async (props:{params:params}) => {
         }else if(!isPublished){
             throw new Error('问卷未发布')
         }else{
+            const componentElem = <>{componentsList.map((item)=>{
+                const Component=genComponents(item)
+                return Component?<div className={styles.componentWrapper} key = {item.fe_id}>{Component}</div>:null
+            })}</>
             return <>
             <form method="post" action="/api/answerSubmit">
-              <input name='questionId' value={id} type="hidden"></input>
-              <QuestionInput fe_id='c1' props={{title:'111',placeholder:'2222'}} />
-              <QuestionRadio fe_id='c2' props={{title:'333',options:[{label:'444',value:'555'},{label:'666',value:'777'}],value:'555',isVertical:false}} />
+                <input name='questionId' value={id} type="hidden"></input>
+                {componentElem}
               <div className={styles.submit}>
-                  <button type="submit">提交</button>
-              </div>
+                    <button type="submit">提交</button>
+                </div>
             </form>
             <script id="page-js">{js}</script>
             {/* 没找到单独修改每个页面head的方法，采用script的方式将css插入到head中 */}
