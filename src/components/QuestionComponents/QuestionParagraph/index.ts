@@ -5,10 +5,12 @@ import PropComponent from './PropComponent';
 
 export * from './interface';
 
-export default {
+const config = {
   title: '标题',
   type: 'questionParagraph', //和后端统一好
   Component,
   PropComponent,
   defaultProps: questionParagraphPropsDefault,
 };
+
+export default  config

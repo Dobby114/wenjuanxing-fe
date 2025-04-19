@@ -38,7 +38,7 @@ const Login: FC = () => {
     const { username, password } = getRememberInfo();
     // console.log(username, password);
     form.setFieldsValue({ username, password });
-  }, []);
+  }, [form]);
   const { loading: loginLoading, run: handleLogin } = useRequest(
     async (data: FieldType) => {
       const result = await userLogin(data);

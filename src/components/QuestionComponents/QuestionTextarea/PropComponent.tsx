@@ -8,7 +8,7 @@ const PropComponent: FC<questionTextareaPropsType> = (props: questionTextareaPro
   const [form] = useForm();
   useEffect(() => {
     form.setFieldsValue({ title, placeholder });
-  }, [title, placeholder]);
+  }, [title, placeholder,form]);
   function handleFormValueChange() {
     if (onChange) {
       onChange(form.getFieldsValue());

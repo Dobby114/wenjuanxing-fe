@@ -12,7 +12,7 @@ const PropComponent: FC<questionInfoPropsType> = (props: questionInfoPropsType) 
   }
   useEffect(() => {
     form.setFieldsValue({ title, desc, isCenter });
-  }, [title, desc, isCenter]);
+  }, [title, desc, isCenter,form]);
 
   return (
     <>

@@ -25,7 +25,7 @@ export function useLoadQuestionData() {
   // 判断id变化，执行ajax加载问卷数据，这对吗？编辑完成后，重新加载，id没变，但是data是变了的
   useEffect(() => {
     run(id);
-  }, [id]);
+  }, [id,run]);
   // 根据data变化，设置redux store
   useEffect(() => {
     // TODO:为什么这里没有data，就return了？

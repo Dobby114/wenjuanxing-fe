@@ -5,7 +5,7 @@ import StatComponent from './StatComponent';
 
 export * from './interface';
 
-export default {
+const config = {
   title: '单选输入框',
   type: 'questionRadio',
   Component,
@@ -13,3 +13,6 @@ export default {
   PropComponent,
   StatComponent,
 };
+
+
+export default  config

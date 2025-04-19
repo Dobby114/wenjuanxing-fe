@@ -8,7 +8,7 @@ const PropComponent: FC<questionTitlePropsType> = (props: questionTitlePropsType
   const [form] = useForm();
   useEffect(() => {
     form.setFieldsValue({ text, level, isCenter });
-  }, [text, level, isCenter]);
+  }, [text, level, isCenter,form]);
   function handleFormValueChange() {
     if (onChange) {
       onChange(form.getFieldsValue());

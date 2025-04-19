@@ -7,7 +7,7 @@ const QuestionParagraph: FC<questionParagraphPropsType> = (props: questionParagr
   const { text, isCenter, onChange, disabled } = props;
   useEffect(() => {
     form.setFieldsValue({ text, isCenter });
-  }, [text, isCenter]);
+  }, [text, isCenter,form]);
   function handleFormValueChange() {
     if (onChange) {
       onChange(form.getFieldsValue());

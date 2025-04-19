@@ -10,7 +10,7 @@ const PropComponent: FC<questionRadioPropsType> = (props: questionRadioPropsType
   useEffect(() => {
     form.setFieldsValue({ title, isVertical, value, options });
     // console.log(options);
-  }, [title, isVertical, value, options]);
+  }, [title, isVertical, value, options,form]);
   function handleFormChange() {
     // console.log(form.getFieldsValue());
     if (onChange) {

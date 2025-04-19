@@ -10,7 +10,7 @@ const PageSetting: FC = () => {
   const pageInfo = useGetPageInfo();
   useEffect(() => {
     form.setFieldsValue(pageInfo);
-  }, [pageInfo]);
+  }, [pageInfo,form]);
   function handleFormChange() {
     dispatch(resetPageInfoReducer(form.getFieldsValue()));
   }

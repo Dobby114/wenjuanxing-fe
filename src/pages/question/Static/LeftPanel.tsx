@@ -38,6 +38,7 @@ const LeftPanel: FC<propsType> = (props: propsType) => {
             </div>
           );
         }
+        return null
       })}
     </div>
   );
