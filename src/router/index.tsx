@@ -1,4 +1,4 @@
-import React from 'react';
+import {lazy} from 'react';
 import { createBrowserRouter } from 'react-router-dom';
 
 import MainLayout from '../layouts/MainLayout';
@@ -11,9 +11,11 @@ import NotFound from '../pages/NotFound';
 import MyQuestionList from '../pages/manage/MyQuestionList';
 import Trash from '../pages/manage/Trash';
 import Star from '../pages/manage/Star';
-import Edit from '../pages/question/Edit';
-import Static from '../pages/question/Static';
+// import Edit from '../pages/question/Edit';
+// import Static from '../pages/question/Static';
 
+const Edit = lazy(()=>import(/*webpackChunkName: "editPage"*/ '../pages/question/Edit'))
+const Static = lazy(()=>import(/*webpackChunkName: "staticPage"*/ '../pages/question/Static'))
 const router = createBrowserRouter([
   {
     path: '/',
