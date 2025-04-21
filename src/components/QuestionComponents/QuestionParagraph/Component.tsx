@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { Typography } from 'antd';
 import { questionParagraphPropsDefault, questionParagraphPropsType } from './interface';
 
-const Component: FC<questionParagraphPropsType> = (props: questionParagraphPropsType) => {
+const Component: FC<Partial<questionParagraphPropsType>> = (props: Partial<questionParagraphPropsType>) => {
   const { Paragraph } = Typography;
   const { text, isCenter } = { ...questionParagraphPropsDefault, ...props };
   const textList = text.split('\n');

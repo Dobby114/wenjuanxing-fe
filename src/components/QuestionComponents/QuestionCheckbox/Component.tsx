@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { Typography, Checkbox, Space } from 'antd';
 import { questionCheckboxPropsType, questionCheckboxPropsDefault } from './interface';
 
-const Component: FC<questionCheckboxPropsType> = (props: questionCheckboxPropsType) => {
+const Component: FC<Partial<questionCheckboxPropsType>> = (props: Partial<questionCheckboxPropsType>) => {
   const { Paragraph } = Typography;
   const { title, options, isVertical } = {
     ...questionCheckboxPropsDefault,
@@ -16,7 +16,7 @@ const Component: FC<questionCheckboxPropsType> = (props: questionCheckboxPropsTy
         {options.map(opt => {
           const { value, label, checked } = opt;
           return (
-            <Checkbox key={value} checked={checked}>
+            <Checkbox key={value} value={value} checked={checked}>
               {label}
             </Checkbox>
           );

@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { Typography, Radio } from 'antd';
 import { questionRadioPropsType, questionRadioPropsDefault } from './interface';
 
-const Component: FC<questionRadioPropsType> = (props: questionRadioPropsType) => {
+const Component: FC<Partial<questionRadioPropsType>> = (props: Partial<questionRadioPropsType>) => {
   const { Paragraph } = Typography;
   const { title, options, value, isVertical } = { ...questionRadioPropsDefault, ...props };
   const verticalStyle: React.CSSProperties = {

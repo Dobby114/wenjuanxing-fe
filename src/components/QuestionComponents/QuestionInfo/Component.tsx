@@ -3,7 +3,7 @@ import { Typography } from 'antd';
 import { questionInfoPropsType, questionInfoPropsDefault } from './interface';
 
 const { Title, Paragraph } = Typography;
-const Component: FC<questionInfoPropsType> = (props: questionInfoPropsType) => {
+const Component: FC<Partial<questionInfoPropsType>> = (props: Partial<questionInfoPropsType>) => {
   const { title, desc = '', isCenter } = { ...questionInfoPropsDefault, ...props };
   const descList = desc.split('\n');
   return (
