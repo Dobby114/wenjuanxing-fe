@@ -13,9 +13,9 @@ export async function getSingleQuestion(id: string): Promise<dataType> {
   return data;
 }
 // 创建问卷
-export async function postQuestion(): Promise<dataType> {
+export async function postQuestion(questionData:dataType): Promise<dataType> {
   const url = `/api/question`;
-  const data: dataType = await axios.post(url);
+  const data: dataType = await axios.post(url,{...questionData});
   return data;
 }
 // 获取（查询）问卷列表

@@ -31,7 +31,7 @@ function genComponent(componentItem: componentInfoType) {
 const EditCanvas: FC<propsType> = ({ loading }) => {
   useCanvasKeyPressBind();
   const dispatch = useDispatch();
-  const { componentsList, selectedId } = useGetComponentsData();
+  const { componentList, selectedId } = useGetComponentsData();
   function handleChangeSelect(event: MouseEvent, selectedId: string) {
     // 阻止事件冒泡到父组件，触发父组件上的事件
     event.stopPropagation();
@@ -45,7 +45,7 @@ const EditCanvas: FC<propsType> = ({ loading }) => {
     );
   }
   // 组件拖拽需要需要id属性
-  const componentListWithId = componentsList.map(item => ({ id: item.fe_id, ...item }));
+  const componentListWithId = componentList.map(item => ({ id: item.fe_id, ...item }));
   // 拖拽组件的onDragEnd事件
   function handleDragEnd(oldIndex: number, newIndex: number) {
     dispatch(changeComponentIndex({ oldIndex, newIndex }));
@@ -53,7 +53,7 @@ const EditCanvas: FC<propsType> = ({ loading }) => {
   return (
     <SortableContainer items={componentListWithId} onDragEnd={handleDragEnd}>
       <div className={styles.canvas}>
-        {componentsList
+        {componentList
           .filter(item => !item.isHidden)
           .map(componentItem => {
             const { fe_id, isLocked } = componentItem;

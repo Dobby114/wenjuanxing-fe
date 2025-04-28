@@ -34,8 +34,8 @@ const AnswerPage: FC<propsType> = (props: propsType) => {
       refreshDeps: [pageNo, pageSize],
     }
   );
-  const { componentsList } = useGetComponentsData();
-  const columns = componentsList.map(item => {
+  const { componentList } = useGetComponentsData();
+  const columns = componentList.map(item => {
     const { fe_id, type, title, props = {} as any } = item;
     const tableTitle = props!.title || title;
     return {

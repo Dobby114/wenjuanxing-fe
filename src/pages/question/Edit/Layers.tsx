@@ -20,10 +20,10 @@ const Layers: FC = () => {
   //   记录正在改变的titleId
   const [changingTitleId, setChangingTitleId] = useState('');
   const [messageApi, contextHolder] = message.useMessage();
-  const { componentsList, selectedId } = useGetComponentsData();
+  const { componentList, selectedId } = useGetComponentsData();
   function handleTextSelect(newSelectedId: string) {
     // 不能选中hidden组件
-    const newSelectedComponent = componentsList.find(item => item.fe_id === newSelectedId);
+    const newSelectedComponent = componentList.find(item => item.fe_id === newSelectedId);
     console.log(newSelectedId, selectedId, newSelectedComponent);
     if (newSelectedComponent && newSelectedComponent.isHidden) {
       messageApi.error('无法选中已隐藏图层！');
@@ -41,7 +41,7 @@ const Layers: FC = () => {
     dispatch(changeComponentTitle({ fe_id: selectedId, newTitle: value }));
   }
   // 组件拖拽需要需要id属性
-  const componentListWithId = componentsList.map(item => ({ id: item.fe_id, ...item }));
+  const componentListWithId = componentList.map(item => ({ id: item.fe_id, ...item }));
   // 拖拽组件的onDragEnd事件
   function handleDragEnd(oldIndex: number, newIndex: number) {
     dispatch(changeComponentIndex({ oldIndex, newIndex }));
@@ -50,7 +50,7 @@ const Layers: FC = () => {
     <>
       {contextHolder}
       <SortableContainer items={componentListWithId} onDragEnd={handleDragEnd}>
-        {componentsList.map(item => {
+        {componentList.map(item => {
           const { title, fe_id, isHidden, isLocked } = item;
           const titleStyle = classNames({
             [styles.titleDefault]: true,

@@ -6,9 +6,9 @@ export default function useGetComponentsData() {
   const componentsData: componentsStateType = useSelector(
     (state: storeType) => state.components.present
   );
-  const { componentsList = [], selectedId, copiedComponent } = componentsData;
+  const { componentList = [], selectedId, copiedComponent } = componentsData;
 
-  const selectedComponent = componentsList.find(c => c.fe_id === selectedId);
-  // const { componentsList } = componentsData;
-  return { componentsList, selectedId, selectedComponent, copiedComponent };
+  const selectedComponent = componentList.find(c => c.fe_id === selectedId);
+  // const { componentList } = componentsData;
+  return { componentList, selectedId, selectedComponent, copiedComponent };
 }

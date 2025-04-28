@@ -47,7 +47,7 @@ const TitleItem: FC = () => {
 };
 const SaveButton: FC = () => {
   const { id = '' } = useParams();
-  const { componentsList } = useGetComponentsData();
+  const { componentList } = useGetComponentsData();
   const pageInfo = useGetPageInfo();
   function handleSave() {
     if (!loading) {
@@ -57,7 +57,7 @@ const SaveButton: FC = () => {
   const { loading, run: save } = useRequest(
     async () => {
       if (!id) return;
-      await updateSingleQuestion(id, { ...pageInfo, componentsList });
+      await updateSingleQuestion(id, { ...pageInfo, componentList });
     },
     { manual: true }
   );
@@ -65,7 +65,7 @@ const SaveButton: FC = () => {
     event.preventDefault();
     handleSave();
   });
-  useDebounceEffect(() => handleSave(), [componentsList, pageInfo], { wait: 2000 });
+  useDebounceEffect(() => handleSave(), [componentList, pageInfo], { wait: 2000 });
   return (
     <Button icon={<CheckOutlined />} onClick={() => handleSave()} loading={loading}>
       保存

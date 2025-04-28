@@ -30,11 +30,11 @@ import useGetComponentsData from '../../../hooks/useGetComponentsData';
 import { ActionCreators as UndoActionCreators } from 'redux-undo';
 
 const ToolBar: FC = () => {
-  const { selectedId, selectedComponent, copiedComponent, componentsList } = useGetComponentsData();
+  const { selectedId, selectedComponent, copiedComponent, componentList } = useGetComponentsData();
   const { isHidden, isLocked } = selectedComponent || {};
   const dispatch = useDispatch();
-  const selectedIndex = componentsList.findIndex(item => item.fe_id === selectedId);
-  const length = componentsList.length;
+  const selectedIndex = componentList.findIndex(item => item.fe_id === selectedId);
+  const length = componentList.length;
   function handleMoveUp() {
     if (selectedIndex === 0) return;
     dispatch(changeComponentIndex({ oldIndex: selectedIndex, newIndex: selectedIndex - 1 }));

@@ -1,8 +1,8 @@
 import { componentInfoType } from './index';
-export function getNextSelectedId(selectedId: string, componentsList: componentInfoType[]) {
+export function getNextSelectedId(selectedId: string, componentList: componentInfoType[]) {
   // 判断nextId,分几种情况：1.当前列表长度为1，删除后长度为0，下一个index为‘’；2. 删除的index，是列表的最后一个元素，next= current+1;其他情况，next=current-1
   // 最重要的逻辑：隐藏状态下的组件是不可以删除的！！!
-  const visibleComponentList = componentsList.filter(item => !item.isHidden);
+  const visibleComponentList = componentList.filter(item => !item.isHidden);
   const currentIndex = visibleComponentList.findIndex(item => item.fe_id === selectedId);
   let nextSelectedId = '';
   const length = visibleComponentList.length;
@@ -21,15 +21,15 @@ export function getNextSelectedId(selectedId: string, componentsList: componentI
 // 插入组件
 export function insertComponent(
   selectedId: string,
-  componentsList: componentInfoType[],
+  componentList: componentInfoType[],
   newComponent: componentInfoType
 ) {
   {
-    const selectedIndex = componentsList.findIndex(item => item.fe_id === selectedId);
+    const selectedIndex = componentList.findIndex(item => item.fe_id === selectedId);
     if (selectedIndex < 0) {
-      componentsList.push(newComponent);
+      componentList.push(newComponent);
     } else {
-      componentsList.splice(selectedIndex + 1, 0, newComponent);
+      componentList.splice(selectedIndex + 1, 0, newComponent);
     }
   }
 }

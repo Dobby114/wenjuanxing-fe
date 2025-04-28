@@ -36,16 +36,16 @@ export function useLoadQuestionData() {
       desc = '',
       js = '',
       css = '',
-      componentsList = [],
+      componentList = [],
       isPublished = false,
     } = data;
     // 设置默认选择的组件为列表中的第一个
     let selectedId = '';
-    if (componentsList.length) {
-      selectedId = componentsList[0].fe_id;
+    if (componentList.length) {
+      selectedId = componentList[0].fe_id;
     }
     // 在这里将后台返回的所有组件信息数据全部都存到redux中去了
-    dispatch(resetComponentsReducer({ componentsList, selectedId, copiedComponent: null }));
+    dispatch(resetComponentsReducer({ componentList, selectedId, copiedComponent: null }));
     // 将pageInfo存储到redux中的stor中去
     dispatch(resetPageInfoReducer({ title, desc, js, css, isPublished }));
   }, [data]);

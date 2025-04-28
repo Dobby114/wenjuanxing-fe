@@ -11,10 +11,10 @@ interface propsType {
 }
 const LeftPanel: FC<propsType> = (props: propsType) => {
   const { selectedComponentId, setSelectedComponentId, setSelectedComponentType } = props;
-  const { componentsList } = useGetComponentsData();
+  const { componentList } = useGetComponentsData();
   return (
     <div className={styles.wrapper}>
-      {componentsList.map(component => {
+      {componentList.map(component => {
         const { type, fe_id } = component;
         const componentClassName = classNames({
           [styles['componentWrapperDefault']]: true,

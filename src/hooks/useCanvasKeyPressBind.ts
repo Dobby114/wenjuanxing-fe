@@ -35,13 +35,13 @@ export default function useCanvasKeyPressBind() {
     }
   });
   //   选中上一个
-  const { componentsList, selectedId } = useGetComponentsData();
-  const selectedComponentIndex = componentsList.findIndex(item => item.fe_id === selectedId);
+  const { componentList, selectedId } = useGetComponentsData();
+  const selectedComponentIndex = componentList.findIndex(item => item.fe_id === selectedId);
   useKeyPress('uparrow', () => {
     if (isActiveElementValid()) {
       if (selectedComponentIndex < 0) return;
       if (selectedComponentIndex === 0) return;
-      const nextComponent = componentsList[selectedComponentIndex - 1];
+      const nextComponent = componentList[selectedComponentIndex - 1];
       dispatch(changeSelectedId({ selectedId: nextComponent.fe_id }));
     }
   });
@@ -49,8 +49,8 @@ export default function useCanvasKeyPressBind() {
   useKeyPress('downarrow', () => {
     if (isActiveElementValid()) {
       if (selectedComponentIndex < 0) return;
-      if (selectedComponentIndex === componentsList.length - 1) return;
-      const nextComponent = componentsList[selectedComponentIndex + 1];
+      if (selectedComponentIndex === componentList.length - 1) return;
+      const nextComponent = componentList[selectedComponentIndex + 1];
       dispatch(changeSelectedId({ selectedId: nextComponent.fe_id }));
     }
   });
