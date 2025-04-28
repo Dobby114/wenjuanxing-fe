@@ -23,7 +23,7 @@ const Trash: FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalConfig, setModalConfig] = useState({});
   const [messageApi, contextHolder] = message.useMessage();
-  const { data, loading, refresh } = useLoadQuestionPageList({ isDelete: true });
+  const { data, loading, refresh } = useLoadQuestionPageList({ isDeleted: true });
   const mockQuestionData = data?.list || [];
   const total = data?.total || 0;
   // 不设置ts类型的话，配置属性会报错！！！
@@ -93,7 +93,7 @@ const Trash: FC = () => {
   const { loading: recoverLoading, run: handleRecover } = useRequest(
     async (keys: string[]) => {
       for (const key of keys) {
-        await updateSingleQuestion(key.toString(), { isDelete: false });
+        await updateSingleQuestion(key.toString(), { isDeleted: false });
       }
     },
     {

@@ -2,7 +2,7 @@ import axios, { dataType } from './ajax';
 interface searchParams {
   keywords: string;
   isStar: boolean;
-  isDelete: boolean;
+  isDeleted: boolean;
   pageSize: number;
   pageNo: number;
 }

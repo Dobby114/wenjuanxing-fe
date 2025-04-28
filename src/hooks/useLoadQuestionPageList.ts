@@ -10,7 +10,7 @@ import {
 
 type questionType = {
   isStar: boolean;
-  isDelete: boolean;
+  isDeleted: boolean;
 };
 export function useLoadQuestionPageList(opt: Partial<questionType> = {}) {
   const [searchParams] = useSearchParams();

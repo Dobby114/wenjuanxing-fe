@@ -28,7 +28,7 @@ const QuestionList: FC<propsType> = (props: propsType) => {
   const [modal, deleteModalContextHolder] = Modal.useModal();
   const { _id, title, isPublished, isStar, answerCount, createTime } = props;
   const [isStated, setIsStated] = useState(isStar);
-  const [isDeleted, setIsDeleted] = useState(false);
+  const [isDeletedd, setisDeletedd] = useState(false);
   const { loading: starChangeLoading, run: handleQuestionChange } = useRequest(
     async data => {
       await updateSingleQuestion(_id.toString(), { ...data });
@@ -37,7 +37,7 @@ const QuestionList: FC<propsType> = (props: propsType) => {
       manual: true,
       onSuccess: () => {
         setIsStated(!isStated);
-        setIsDeleted(true);
+        setisDeletedd(true);
         messageApi.success('更新成功！');
       },
     }
@@ -64,14 +64,14 @@ const QuestionList: FC<propsType> = (props: propsType) => {
     okText: '确定',
     cancelText: '取消',
     onOk: () => {
-      handleQuestionChange({ isDelete: true });
+      handleQuestionChange({ isDeleted: true });
     },
   };
   function handleDelete() {
     modal.confirm(deleteButtonConfig);
   }
   // mock删除
-  if (isDeleted) {
+  if (isDeletedd) {
     return <div>{contextHolder}</div>;
   }
   return (
