@@ -14,7 +14,7 @@ const MyQuestionList: FC = () => {
   // 2. 当滑动到窗口底部，触发加载
   // 2. 用一个列表，存储已经加载的数据，当list.length>=total,时表示数据加载完毕
   const [searchParams] = useSearchParams();
-  const keywords = searchParams.get(LIST_SEARCH_PARAM_KEY) || '';
+  const keyword = searchParams.get(LIST_SEARCH_PARAM_KEY) || '';
   const mockQuestionData = useRef([]);
   // const [loadable, setLoadable] = useState(false);
   const [total, setTotal] = useState(0);
@@ -26,7 +26,7 @@ const MyQuestionList: FC = () => {
       const res: any = await getQuestionList({
         pageNo: pageNo.current,
         pageSize: LIST_PAGE_SIZE_DEFAULT,
-        keywords: keywords,
+        keyword: keyword,
       });
       // setTotal(res.total || 0);
       return res;
@@ -54,7 +54,7 @@ const MyQuestionList: FC = () => {
     mockQuestionData.current = [];
     pageNo.current = 1;
     loadPage();
-  }, [keywords]);
+  }, [keyword]);
   useEffect(() => {
     if (loadPromptRef.current) {
       observer.observe(loadPromptRef.current);

@@ -22,7 +22,7 @@ export function useLoadQuestionPageList(opt: Partial<questionType> = {}) {
   const { data, loading, error, refresh } = useRequest(
     async () => {
       // setSearchParams(searchParams, { replace: true });
-      const data = await getQuestionList({ ...opt, pageNo, pageSize, keywords: params });
+      const data = await getQuestionList({ ...opt, pageNo, pageSize, keyword: params });
       return data;
     },
     {
