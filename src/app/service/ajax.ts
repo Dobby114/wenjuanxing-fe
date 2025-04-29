@@ -1,4 +1,4 @@
-const HOST = 'http://localhost:3003';
+const HOST = 'http://localhost:3005';
 
 export async function get(url:string){
     const res = await fetch(HOST + url)
@@ -9,6 +9,7 @@ export async function get(url:string){
 export async function post(url:string, data:object){
     const res = await fetch(HOST + url, {
         method: 'POST',
+        headers:{'Content-Type':'application/json'},
         body: JSON.stringify(data)
     })
     const result = res.json()

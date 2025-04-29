@@ -29,9 +29,9 @@ type questionInfoType={
         js: string,
         css: string,
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        componentsList: Array<{[key:string]:any}>
+        componentList: Array<{[key:string]:any}>
         isPublished: boolean,
-        isDelete: boolean,
+        isDeleted: boolean,
     },
     msg:string,
 }
@@ -43,15 +43,15 @@ const Question: FC<{params:params}> = async (props:{params:params}) => {
         // 根绝questionId从后端获取问卷数据
         const questionInfo:questionInfoType = await getQuestion(data.id)
         const {code,data:questionData} = questionInfo
-        const {_id:id,js='',css='',isDelete,isPublished,componentsList} = questionData|| {}
+        const {_id:id,js='',css='',isDeleted,isPublished,componentList} = questionData|| {}
         if(code !== 0){
             throw new Error('获取问卷数据失败')
-        }else if(isDelete){
+        }else if(isDeleted){
             throw new Error('问卷已删除')
         }else if(!isPublished){
             throw new Error('问卷未发布')
         }else{
-            const componentElem = <>{componentsList.map((item)=>{
+            const componentElem = <>{componentList.map((item)=>{
                 const Component=genComponents(item)
                 return Component?<div className={styles.componentWrapper} key = {item.fe_id}>{Component}</div>:null
             })}</>
