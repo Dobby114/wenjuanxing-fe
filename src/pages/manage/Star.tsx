@@ -7,8 +7,8 @@ import ListSearch from '../../components/ListSearch';
 import { useLoadQuestionPageList } from '../../hooks/useLoadQuestionPageList';
 import ListPage from '../../components/ListPage';
 const StarList: FC = () => {
-  const { data, loading } = useLoadQuestionPageList({ isStar: true });
-  const mockQuestionData = data?.list || [];
+  const { data, loading,refresh } = useLoadQuestionPageList({ isStar: true });
+  const questionData = data?.list || [];
   const total = data?.total || 0;
   return (
     <div className={style.container}>
@@ -22,17 +22,17 @@ const StarList: FC = () => {
         {/* 问卷列表 */}
         <div className={style.body}>
           {loading && <Spin tip="加载中">{<div style={{ padding: '50px' }}></div>}</Spin>}
-          {!loading && mockQuestionData.length > 0 && (
+          {!loading && questionData.length > 0 && (
             <div style={{ height: '100%' }}>
-              {mockQuestionData.map((item: any) => {
-                return <QuestionList key={item._id} {...item}></QuestionList>;
+              {questionData.map((item: any) => {
+                return <QuestionList key={item._id} {...item} reload={refresh}></QuestionList>;
               })}
             </div>
           )}
-          {!loading && mockQuestionData.length <= 0 && <Empty description="暂无数据" />}
+          {!loading && questionData.length <= 0 && <Empty description="暂无数据" />}
         </div>
         <div className={style.footer}>
-          {!loading && mockQuestionData.length > 0 && <ListPage total={total} />}
+          {!loading && questionData.length > 0 && <ListPage total={total} />}
         </div>
       </div>
       {/* <div className={style.footer}>

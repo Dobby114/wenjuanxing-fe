@@ -15,11 +15,11 @@ const MyQuestionList: FC = () => {
   // 2. 用一个列表，存储已经加载的数据，当list.length>=total,时表示数据加载完毕
   const [searchParams] = useSearchParams();
   const keyword = searchParams.get(LIST_SEARCH_PARAM_KEY) || '';
-  const mockQuestionData = useRef([]);
+  const questionData = useRef([]);
   // const [loadable, setLoadable] = useState(false);
   const [total, setTotal] = useState(0);
   const pageNo = useRef(1);
-  const loadable = mockQuestionData.current.length < total;
+  const loadable = questionData.current.length < total;
   const loadPromptRef = useRef(null);
   const { loading, run: loadPage } = useRequest(
     async () => {
@@ -36,9 +36,9 @@ const MyQuestionList: FC = () => {
       onSuccess: res => {
         const { list = [], total = 0 } = res;
         setTotal(total);
-        mockQuestionData.current = mockQuestionData.current.concat(list);
+        questionData.current = questionData.current.concat(list);
         pageNo.current++;
-        // 因为不能立刻拿到mockQuestionData的真是长度，所以这里不能直接比较
+        // 因为不能立刻拿到questionData的真实长度，所以这里不能直接比较
       },
     }
   );
@@ -47,14 +47,19 @@ const MyQuestionList: FC = () => {
       loadPage();
     }
   }
+  // console.log(questionData)
   // // 触底交叉加载
   const observer = new IntersectionObserver(handleTryLoad);
   // 初始化加载
-  useEffect(() => {
-    mockQuestionData.current = [];
+  function initData(){
+    questionData.current = [];
     pageNo.current = 1;
+  }
+  useEffect(() => {
+    initData()
     loadPage();
   }, [keyword]);
+
   useEffect(() => {
     if (loadPromptRef.current) {
       observer.observe(loadPromptRef.current);
@@ -82,17 +87,20 @@ const MyQuestionList: FC = () => {
               <Spin />
             </div>
           )}
-          {mockQuestionData.current.length > 0 && (
+          {questionData.current.length > 0 && (
             <div>
-              {mockQuestionData.current.map((item: any) => {
-                return <QuestionList key={item._id} {...item}></QuestionList>;
+              {questionData.current.map((item: any) => {
+                return <QuestionList key={item._id} {...item} reload={()=>{
+                  initData()
+                  loadPage()
+                }}></QuestionList>;
               })}
               <div ref={loadPromptRef} className={style.footer}>
                 {loadable ? 'loader more... 上滑加载更多...' : '没有更多了...'}
               </div>
             </div>
           )}
-          {!loading && mockQuestionData.current.length <= 0 && <Empty description="暂无数据" />}
+          {!loading && questionData.current.length <= 0 && <Empty description="暂无数据" />}
         </div>
       </div>
     </div>

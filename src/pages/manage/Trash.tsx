@@ -24,7 +24,7 @@ const Trash: FC = () => {
   const [modalConfig, setModalConfig] = useState({});
   const [messageApi, contextHolder] = message.useMessage();
   const { data, loading, refresh } = useLoadQuestionPageList({ isDeleted: true });
-  const mockQuestionData = data?.list || [];
+  const questionData = data?.list || [];
   const total = data?.total || 0;
   // 不设置ts类型的话，配置属性会报错！！！
   const columns: ColumnsType = [
@@ -159,7 +159,7 @@ const Trash: FC = () => {
       </Space>
       <Table
         columns={columns}
-        dataSource={mockQuestionData}
+        dataSource={questionData}
         bordered={true}
         rowKey={record => record._id}
         pagination={false}
@@ -204,11 +204,11 @@ const Trash: FC = () => {
               {loading && <Spin tip="加载中">{<div style={{ padding: '50px' }}></div>}</Spin>}
             </div>
           )}
-          {!loading && mockQuestionData.length > 0 && TableEl}
-          {!loading && mockQuestionData.length <= 0 && <Empty description="暂无数据" />}
+          {!loading && questionData.length > 0 && TableEl}
+          {!loading && questionData.length <= 0 && <Empty description="暂无数据" />}
         </div>
         <div className={style.footer}>
-          {!loading && mockQuestionData.length > 0 && <ListPage total={total} />}
+          {!loading && questionData.length > 0 && <ListPage total={total} />}
         </div>
       </div>
     </div>

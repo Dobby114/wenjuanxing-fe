@@ -21,12 +21,13 @@ interface propsType {
   isStar: boolean;
   answerCount: number;
   createTime: string;
+  reload?:()=>void
 }
 const QuestionList: FC<propsType> = (props: propsType) => {
   const navigate = useNavigate();
   const [messageApi, contextHolder] = message.useMessage();
   const [modal, deleteModalContextHolder] = Modal.useModal();
-  const { _id, title, isPublished, isStar, answerCount, createTime } = props;
+  const { _id, title, isPublished, isStar, answerCount, createTime,reload } = props;
   const [isStarred, setIsStarred] = useState(isStar);
   const [isDeleted, setIsDeleted] = useState(false);
   const { loading: starChangeLoading, run: handleQuestionChange } = useRequest(
@@ -35,10 +36,13 @@ const QuestionList: FC<propsType> = (props: propsType) => {
     },
     {
       manual: true,
-      // onSuccess: () => {
-      //   // setIsStarred(!isStarred);
-      //   messageApi.success('更新成功！');
-      // },
+      onSuccess: () => {
+        // setIsStarred(!isStarred);
+        // messageApi.success('更新成功！');
+        if(reload){
+          reload()
+         }
+      },
     }
   );
   const { loading: duplicateLoading, run: handleDuplicate } = useRequest(
@@ -69,10 +73,6 @@ const QuestionList: FC<propsType> = (props: propsType) => {
   };
   function handleDelete() {
     modal.confirm(deleteButtonConfig);
-  }
-  // mock删除
-  if (isDeleted) {
-    return <div>{contextHolder}</div>;
   }
   return (
     <Card
