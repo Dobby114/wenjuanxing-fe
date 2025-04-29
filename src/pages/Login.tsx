@@ -20,7 +20,6 @@ const Login: FC = () => {
   const nav = useNavigate();
   const { Title } = Typography;
   const [form] = useForm();
-  const [messageApi, contextHolder] = message.useMessage();
   function rememberUser(username: string, password: string) {
     localStorage.setItem(USERNAME_KEY, username);
     localStorage.setItem(PASSWORD_KEY, password);
@@ -47,15 +46,13 @@ const Login: FC = () => {
     {
       manual: true,
       onSuccess: res => {
-        // TODO: 消息提示没生效！！！
-        messageApi.success('登陆成功！');
+        message.success('登陆成功！');
         setUserToken(res.token || '');
         nav(MANAGER_INDEX_PATHNAME);
       },
     }
   );
   function onFinish(values: FieldType) {
-    // console.log('生效');
     const { username, password, remember } = values;
     if (remember) {
       rememberUser(username as string, password as string);
@@ -70,7 +67,6 @@ const Login: FC = () => {
   }
   return (
     <div className={styles.container}>
-      {contextHolder}
       <div className={styles.main}>
         <div className={styles.title}>
           <Title level={3}>欢迎使用 造梦问卷</Title>

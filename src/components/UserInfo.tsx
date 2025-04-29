@@ -23,7 +23,6 @@ const UserInfo: FC = () => {
         {username}
       </span>
       <Button type="link" onClick={handleLogout}>
-        {/* 暂无退出登陆接口，退出登陆的相关逻辑暂时都不正确 */}
         退出
       </Button>
     </Space>

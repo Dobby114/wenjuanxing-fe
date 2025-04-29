@@ -27,19 +27,18 @@ const QuestionList: FC<propsType> = (props: propsType) => {
   const [messageApi, contextHolder] = message.useMessage();
   const [modal, deleteModalContextHolder] = Modal.useModal();
   const { _id, title, isPublished, isStar, answerCount, createTime } = props;
-  const [isStated, setIsStated] = useState(isStar);
-  const [isDeletedd, setisDeletedd] = useState(false);
+  const [isStarred, setIsStarred] = useState(isStar);
+  const [isDeleted, setIsDeleted] = useState(false);
   const { loading: starChangeLoading, run: handleQuestionChange } = useRequest(
     async data => {
       await updateSingleQuestion(_id.toString(), { ...data });
     },
     {
       manual: true,
-      onSuccess: () => {
-        setIsStated(!isStated);
-        setisDeletedd(true);
-        messageApi.success('更新成功！');
-      },
+      // onSuccess: () => {
+      //   // setIsStarred(!isStarred);
+      //   messageApi.success('更新成功！');
+      // },
     }
   );
   const { loading: duplicateLoading, run: handleDuplicate } = useRequest(
@@ -51,8 +50,7 @@ const QuestionList: FC<propsType> = (props: propsType) => {
       manual: true,
       onSuccess: res => {
         if (res?._id) {
-          // TODO: message没弹出来，待解决
-          messageApi.success('复制成功！');
+          message.success('复制成功！');
           navigate(`/question/edit/${res._id}`);
         }
       },
@@ -63,15 +61,17 @@ const QuestionList: FC<propsType> = (props: propsType) => {
     content: <div>确认删除问卷 {title} 吗？</div>,
     okText: '确定',
     cancelText: '取消',
-    onOk: () => {
-      handleQuestionChange({ isDeleted: true });
+    onOk:  () => {
+       handleQuestionChange({ isDeleted: true });
+       setIsDeleted(true);
+       message.success('删除成功！')
     },
   };
   function handleDelete() {
     modal.confirm(deleteButtonConfig);
   }
   // mock删除
-  if (isDeletedd) {
+  if (isDeleted) {
     return <div>{contextHolder}</div>;
   }
   return (
@@ -112,14 +112,15 @@ const QuestionList: FC<propsType> = (props: propsType) => {
           <Button
             type="text"
             icon={
-              isStated ? <StarFilled style={{ color: isStated && 'yellow' }} /> : <StarOutlined />
+              isStarred ? <StarFilled style={{ color: isStarred && 'yellow' }} /> : <StarOutlined />
             }
             onClick={() => {
-              handleQuestionChange({ isStar: !isStated });
+              handleQuestionChange({ isStar: !isStarred });
+              setIsStarred(!isStarred);
             }}
             loading={starChangeLoading}
           >
-            {isStated ? '取消标星' : '标星'}
+            {isStarred ? '取消标星' : '标星'}
           </Button>
           <Popconfirm
             title="复制问卷"

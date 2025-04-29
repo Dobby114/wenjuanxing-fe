@@ -12,11 +12,16 @@ import {
 } from '@ant-design/icons';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { postQuestion } from '../services/questions';
+import useNavPage from '../hooks/useNavPage';
+import useLoadingUserData from '../hooks/useLoadingUserData';
 const ManageLayout: FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [form] = Form.useForm()
   const [isModalOpen, setModalOpen] = useState(false)
+  // 首页、注册页、登陆页面、不需要获取用户信息就可以访问！其他页面需要获取用户信息才能访问！
+  const isUserDataLoaded =useLoadingUserData();
+  useNavPage(isUserDataLoaded);
   const { loading, run: create } = useRequest(async (questionData)=>postQuestion(questionData), {
     manual: true,
     onSuccess(res) {
@@ -73,7 +78,7 @@ const ManageLayout: FC = () => {
         </Space>
       </div>
       <div className={style.right}>
-        <Outlet />
+        {isUserDataLoaded && <Outlet />}
       </div>
     </div>
   );
