@@ -25,11 +25,9 @@ interface propsType {
 }
 const QuestionList: FC<propsType> = (props: propsType) => {
   const navigate = useNavigate();
-  const [messageApi, contextHolder] = message.useMessage();
   const [modal, deleteModalContextHolder] = Modal.useModal();
   const { _id, title, isPublished, isStar, answerCount, createTime,reload } = props;
   const [isStarred, setIsStarred] = useState(isStar);
-  const [isDeleted, setIsDeleted] = useState(false);
   const { loading: starChangeLoading, run: handleQuestionChange } = useRequest(
     async data => {
       await updateSingleQuestion(_id.toString(), { ...data });
@@ -67,7 +65,6 @@ const QuestionList: FC<propsType> = (props: propsType) => {
     cancelText: '取消',
     onOk:  () => {
        handleQuestionChange({ isDeleted: true });
-       setIsDeleted(true);
        message.success('删除成功！')
     },
   };
@@ -83,12 +80,11 @@ const QuestionList: FC<propsType> = (props: propsType) => {
           <Tag color={isPublished ? 'processing' : 'default'}>
             {isPublished ? '已发布' : '未发布'}
           </Tag>
-          <span>答案: {answerCount}</span>
-          <span>{createTime}</span>
+          {/* <span>答案: {answerCount}</span> */}
+          <span>{createTime && createTime.split(' ')[0]}</span>
         </Space>
       }
     >
-      {contextHolder}
       {deleteModalContextHolder}
       <div className={style.content}>
         <Space size="small">

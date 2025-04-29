@@ -11,6 +11,7 @@ import { useRequest, useKeyPress, useDebounceEffect } from 'ahooks';
 import { updateSingleQuestion } from '../../../services/questions';
 import useGetComponentsData from '../../../hooks/useGetComponentsData';
 import { useParams } from 'react-router-dom';
+import {message} from 'antd'
 
 const TitleItem: FC = () => {
   const dispatch = useDispatch();
@@ -74,12 +75,18 @@ const SaveButton: FC = () => {
 };
 const PublishButton: FC = () => {
   const { id = '' } = useParams();
+  const nav = useNavigate();
   const { run: publish, loading } = useRequest(
     async () => {
       if (!id) return;
       await updateSingleQuestion(id, { isPublished: true });
     },
-    { manual: true }
+    {
+      manual: true, onSuccess() {
+        message.success('发布成功！')
+        nav('/manage/list')
+      }
+    }
   );
   return (
     <Button

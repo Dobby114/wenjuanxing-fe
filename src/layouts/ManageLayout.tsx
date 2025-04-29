@@ -33,7 +33,7 @@ const ManageLayout: FC = () => {
   async function handleCreateQuestion(){
     try{
       const data = await form.validateFields()
-      create(data)
+      create({...data,createTime:new Date().toLocaleString()})
     }catch(err){
       console.error()
     }
