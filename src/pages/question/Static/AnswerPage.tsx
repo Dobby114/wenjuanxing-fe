@@ -31,9 +31,10 @@ const AnswerPage: FC<propsType> = (props: propsType) => {
         setAnswerList(list);
         setTotal(total);
       },
-      refreshDeps: [pageNo, pageSize],
+      refreshDeps: [id,pageNo, pageSize],
     }
   );
+  // run()
   const { componentList } = useGetComponentsData();
   const columns = componentList.map(item => {
     const { fe_id, type, title, props = {} as any } = item;

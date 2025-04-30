@@ -29,7 +29,6 @@ instance.interceptors.response.use(res => {
   if (code !== 0) {
     
     if (msg) {
-      // TODO: 优化提示
       message.error(msg);
       // alert(msg);
     }
@@ -45,7 +44,7 @@ instance.interceptors.response.use(res => {
 
     if (status === 401) {
       // 未授权，可以跳转到登录页
-      // window.location.href = '/login';
+      window.location.href = '/login';
       return Promise.reject(msg ||'会话过期！请重新登陆！');
     } else if (status === 403) {
       return Promise.reject(msg ||'权限不足，无法访问此资源');
