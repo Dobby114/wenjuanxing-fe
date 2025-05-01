@@ -26,7 +26,7 @@ const StatComponent: FC<CheckboxStatPropsType> = (props: CheckboxStatPropsType) 
           fill="#82ca9d"
           activeBar={<Rectangle fill="gold" stroke="purple" />}
         >
-          {data.map((entry, index) => (
+          {data&&data.map((entry, index) => (
             <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />
           ))}
         </Bar>

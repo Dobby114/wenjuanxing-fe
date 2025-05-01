@@ -7,7 +7,7 @@ const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 const StatComponent: FC<radioStatPropsType> = (props: radioStatPropsType) => {
   // TODO:解决文件超出样式问题 & 补全其他样式问题
   const { statData: data } = props;
-  console.log(data);
+  // console.log('data-----',data);
   return (
     <ResponsiveContainer width="100%" height="100%">
       <PieChart width={240} height={400}>
@@ -24,7 +24,7 @@ const StatComponent: FC<radioStatPropsType> = (props: radioStatPropsType) => {
           style={{ fontSize: '16px' }}
           labelLine
         >
-          {data.map((entry, index) => (
+          {data&&data.map((entry, index) => (
             <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
           ))}
         </Pie>

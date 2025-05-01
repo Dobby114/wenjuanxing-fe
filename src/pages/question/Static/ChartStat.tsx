@@ -16,6 +16,7 @@ const ChartStat: FC<propsType> = (props: propsType) => {
   const [staticRes, setStaticRes] = useState<[]>([]);
   const { run, loading } = useRequest(async () => await getStaticRes(id, selectedComponentId), {
     onSuccess(res) {
+      // console.log('res-----',res)
       const { stat } = res;
       setStaticRes(stat);
     },
