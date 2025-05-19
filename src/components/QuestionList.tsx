@@ -41,6 +41,9 @@ const QuestionList: FC<propsType> = (props: propsType) => {
           reload()
          }
       },
+      onError: err => {
+        message.error('出错了！');
+      },
     }
   );
   const { loading: duplicateLoading, run: handleDuplicate } = useRequest(
@@ -55,6 +58,9 @@ const QuestionList: FC<propsType> = (props: propsType) => {
           message.success('复制成功！');
           navigate(`/question/edit/${res._id}`);
         }
+      },
+      onError: err => {
+        message.error('出错了！');
       },
     }
   );

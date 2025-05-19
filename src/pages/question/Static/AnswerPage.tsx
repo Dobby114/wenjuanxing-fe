@@ -2,7 +2,7 @@ import React, { FC, useState } from 'react';
 import { useRequest } from 'ahooks';
 import { getAnswerPage } from '../../../services/stat';
 import { useParams } from 'react-router-dom';
-import { Spin, Typography, Table, Pagination } from 'antd';
+import { Spin, Typography, Table, Pagination,message } from 'antd';
 import useGetComponentsData from '../../../hooks/useGetComponentsData';
 import { STATE_PAGE_SIZE_DEFAULT } from '../../../constant';
 import styles from './AnswerPage.module.scss';
@@ -30,6 +30,9 @@ const AnswerPage: FC<propsType> = (props: propsType) => {
         const { total, list } = res;
         setAnswerList(list);
         setTotal(total);
+      },
+            onError: err => {
+        message.error('出错了！');
       },
       refreshDeps: [id,pageNo, pageSize],
     }

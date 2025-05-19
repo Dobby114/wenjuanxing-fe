@@ -50,6 +50,9 @@ const Login: FC = () => {
         setUserToken(res.token || '');
         nav(MANAGER_INDEX_PATHNAME);
       },
+      onError: err => {
+        message.error('出错了！');
+      },
     }
   );
   function onFinish(values: FieldType) {

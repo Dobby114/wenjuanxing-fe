@@ -1,5 +1,5 @@
 import React, { FC, useState, useEffect } from 'react';
-import { Typography } from 'antd';
+import { Typography,message } from 'antd';
 import { useRequest } from 'ahooks';
 import { getStaticRes } from '../../../services/stat';
 import { useParams } from 'react-router-dom';
@@ -20,6 +20,9 @@ const ChartStat: FC<propsType> = (props: propsType) => {
       const { stat } = res;
       setStaticRes(stat);
     },
+          onError: err => {
+        message.error('出错了！');
+      },
   });
   useEffect(() => {
     run();

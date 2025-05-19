@@ -20,7 +20,6 @@ const Login: FC = () => {
   const nav = useNavigate();
   const { Title } = Typography;
   const [form] = useForm();
-  const [messageApi, contextHolder] = message.useMessage();
   function rememberUser(username: string, password: string) {
     localStorage.setItem(USERNAME_KEY, username);
     localStorage.setItem(PASSWORD_KEY, password);
@@ -46,9 +45,11 @@ const Login: FC = () => {
     {
       manual: true,
       onSuccess: () => {
-        // TODO: 消息提示没生效！！！
-        messageApi.success('注册成功');
+        message.success('注册成功');
         nav(LOGIN_PATHNAME);
+      },
+      onError: err => {
+        message.error('出错了！');
       },
     }
   );
@@ -68,7 +69,6 @@ const Login: FC = () => {
   }
   return (
     <div className={styles.container}>
-      {contextHolder}
       <div className={styles.main}>
         <div className={styles.title}>
           <Title level={3}>注册账号</Title>

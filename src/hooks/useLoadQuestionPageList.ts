@@ -7,6 +7,7 @@ import {
   LIST_PAGE_SIZE_KEY,
   LIST_PAGE_SIZE_DEFAULT,
 } from '../constant';
+import { message } from 'antd';
 
 type questionType = {
   isStar: boolean;
@@ -27,6 +28,9 @@ export function useLoadQuestionPageList(opt: Partial<questionType> = {}) {
     },
     {
       refreshDeps: [searchParams],
+            onError: err => {
+        message.error('出错了！');
+      },
     }
   );
   return { data, loading, error, refresh };

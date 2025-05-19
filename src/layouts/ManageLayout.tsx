@@ -3,7 +3,7 @@ import { FC, useState } from 'react';
 import { useRequest } from 'ahooks';
 import { Outlet } from 'react-router-dom';
 import style from './ManagerLayout.module.scss';
-import { Button, Space, Modal, Form,Input } from 'antd';
+import { Button, Space, Modal, Form,Input,message } from 'antd';
 import {
   PlusOutlined,
   UnorderedListOutlined,
@@ -29,6 +29,9 @@ const ManageLayout: FC = () => {
       const {_id} = res
       navigate(`/question/edit/${_id}`)
     },
+      onError: err => {
+        message.error('出错了！');
+      },
   });
   async function handleCreateQuestion(){
     try{

@@ -5,6 +5,7 @@ import { useRequest } from 'ahooks';
 import { useDispatch } from 'react-redux';
 import { resetComponentsReducer } from '../store/components';
 import { resetPageInfoReducer } from '../store/pageInfo';
+import {message} from 'antd';
 
 // 把请求的组件数据存进redux中
 export function useLoadQuestionData() {
@@ -20,8 +21,11 @@ export function useLoadQuestionData() {
     },
     {
       manual: true,
-    }
-  );
+      onError: err => {
+        message.error('出错了！');
+      },
+    },)
+
   // 判断id变化，执行ajax加载问卷数据，这对吗？编辑完成后，重新加载，id没变，但是data是变了的
   useEffect(() => {
     run(id);

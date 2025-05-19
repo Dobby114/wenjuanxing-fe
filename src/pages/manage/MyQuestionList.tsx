@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { FC } from 'react';
 import QuestionList from '../../components/QuestionList';
 import style from './Common.module.scss';
-import { Empty, Spin } from 'antd';
+import { Empty, Spin,message } from 'antd';
 import ListSearch from '../../components/ListSearch';
 import { getQuestionList } from '../../services/questions';
 import { useRequest } from 'ahooks';
@@ -39,6 +39,9 @@ const MyQuestionList: FC = () => {
         questionData.current = questionData.current.concat(list);
         pageNo.current++;
         // 因为不能立刻拿到questionData的真实长度，所以这里不能直接比较
+      },
+      onError: err => {
+        message.error('出错了！');
       },
     }
   );

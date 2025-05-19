@@ -7,6 +7,7 @@ import useGetUserInfo from './useGetUserInfo';
 import { useRequest } from 'ahooks';
 import { useDispatch } from 'react-redux';
 import { loginReducer } from '../store/userInfo';
+import { message } from 'antd';
 export default function useLoadingUserData() {
   const dispatch = useDispatch();
   const [isUserDataLoaded, setIsUserDataLoaded] = useState(false);
@@ -20,6 +21,9 @@ export default function useLoadingUserData() {
     onFinally: () => {
       setIsUserDataLoaded(true);
     },
+      onError: err => {
+        message.error('出错了！');
+      },
   });
   useEffect(() => {
     if (userId) {

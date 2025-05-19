@@ -88,6 +88,9 @@ const Trash: FC = () => {
         refresh();
         clearTable();
       },
+      onError: err => {
+        message.error('出错了！');
+      },
     }
   );
   const { loading: recoverLoading, run: handleRecover } = useRequest(
@@ -102,6 +105,9 @@ const Trash: FC = () => {
         messageApi.success('恢复成功！');
         refresh();
         clearTable();
+      },
+      onError: err => {
+        message.error('出错了！');
       },
     }
   );

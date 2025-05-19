@@ -4,18 +4,10 @@ import { useNavigate } from 'react-router-dom';
 import { Button, message } from 'antd';
 import { Typography } from 'antd';
 import styles from './Home.module.scss';
-import { MANAGER_INDEX_PATHNAME } from '../router';
+import { LOGIN_PATHNAME } from '../router';
 const Home: FC = () => {
   const navigate = useNavigate();
   const { Title, Paragraph } = Typography;
-  // function handleNavigate(path: string) {
-  //   // nav(path);
-  //   // 传递参数
-  //   // nav({
-  //   //   pathname: path,
-  //   //   search: 'b=100',
-  //   // });
-  // }
   return (
     <div className={styles.container}>
       <Title>问卷调查｜ 在线投票</Title>
@@ -24,8 +16,7 @@ const Home: FC = () => {
         <Button
           type="primary"
           onClick={() => {
-            message.success('跳转成功');
-            navigate(MANAGER_INDEX_PATHNAME);
+            navigate(LOGIN_PATHNAME);
           }}
         >
           开始使用

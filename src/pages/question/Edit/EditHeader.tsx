@@ -60,7 +60,11 @@ const SaveButton: FC = () => {
       if (!id) return;
       await updateSingleQuestion(id, { ...pageInfo, componentList });
     },
-    { manual: true }
+    { manual: true,
+            onError: err => {
+        message.error('出错了！');
+      },
+     }
   );
   useKeyPress(['ctrl.s', 'meta.s'], (event: KeyboardEvent) => {
     event.preventDefault();
@@ -85,7 +89,10 @@ const PublishButton: FC = () => {
       manual: true, onSuccess() {
         message.success('发布成功！')
         nav('/manage/list')
-      }
+      },
+            onError: err => {
+        message.error('出错了！');
+      },
     }
   );
   return (
