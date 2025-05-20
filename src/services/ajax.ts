@@ -11,8 +11,12 @@ export interface dataType {
   [key: string]: any;
 }
 const instance = axios.create({
-  baseURL:'http://localhost:3005',
+  baseURL:'https://wenjuanxing-be.vercel.app',
   timeout: 60 * 1000,
+  headers: {
+    // 'Content-Type': 'application/json',
+    'credentials': 'include',
+  },
 });
 // 添加一个请求拦截器，在每次发起请求前，将token放到请求头中
 // Bearer 是规定格式！
