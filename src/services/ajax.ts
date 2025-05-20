@@ -11,7 +11,7 @@ export interface dataType {
   [key: string]: any;
 }
 const instance = axios.create({
-  baseURL:'https://wenjuanxing-be.vercel.app',
+  baseURL:'https://zaomengwenjuan-be.vercel.app',
   timeout: 60 * 1000,
   headers: {
     // 'Content-Type': 'application/json',

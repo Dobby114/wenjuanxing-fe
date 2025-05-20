@@ -33,7 +33,7 @@ module.exports = {
   devServer: {
     port: 8000,
     proxy: {
-      '/api': 'https://wenjuanxing-be.vercel.app',
+      '/api': 'https://zaomengwenjuan-be.vercel.app',
     },
   },
 };
