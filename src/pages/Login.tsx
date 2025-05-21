@@ -50,9 +50,9 @@ const Login: FC = () => {
         setUserToken(res.token || '');
         nav(MANAGER_INDEX_PATHNAME);
       },
-      onError: err => {
-        message.error('出错了！');
-      },
+      // onError: err => {
+      //   message.error('出错了！');
+      // },
     }
   );
   function onFinish(values: FieldType) {
@@ -76,14 +76,12 @@ const Login: FC = () => {
         </div>
         <div className={styles.form}>
           <Form
-            name="login"
             labelCol={{ span: 6 }}
             wrapperCol={{ span: 16 }}
             style={{ maxWidth: 600 }}
             initialValues={{ remember: true }}
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}
-            autoComplete="off"
             form={form}
           >
             <Form.Item name="username" label="用户名">

@@ -19,19 +19,18 @@
         }
         .main{
             width: 38%;
-            padding:40px;
+            padding:20px 40px;
             .wrapper{
                 height: 100%;
+                width: 100%;
+                padding-top: 40px;
                 overflow-y: scroll;
                 background-color: #fff;
-                .title{
-                    height: 50px;
-                    text-align: center;
-                    line-height: 50px;
-                }
                 .canvas-wrapper{
+                    width: 100%;
+                    // padding:0 10px;
                     margin-bottom: 80px;
-                    background-color: lightcyan;
+                    // background-color: rgb(50, 255, 255);
                 }
             }
         }

@@ -11,7 +11,7 @@ const StaticHeader: FC = () => {
   const [messageApi, contextHolder] = message.useMessage();
   const nav = useNavigate();
   const { id } = useParams();
-  const url = `http:localhost:3000/question/${id}`;
+  const url = `https://zaomengwenjuan-cside.vercel.app/question/${id}`;
   const inputRef = useRef<InputRef>(null);
   function handleCopy() {
     const elem = inputRef.current;

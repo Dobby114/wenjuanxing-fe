@@ -39,7 +39,7 @@ const Edit: FC = () => {
         </div>
         <div className={styles.main} onClick={handleClearSelect}>
           <div className={styles.wrapper}>
-            <div className={styles.title}>1111测试</div>
+            {/* <div className={styles.title}>1111测试</div> */}
             <div className={styles['canvas-wrapper']}>
               <EditCanvas loading={loading}></EditCanvas>
             </div>
