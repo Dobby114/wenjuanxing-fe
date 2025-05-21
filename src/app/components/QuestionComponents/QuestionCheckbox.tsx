@@ -4,15 +4,15 @@ import styles from './QuestionCheckbox.module.scss'
 
 
 type propsType={
-    fe_id: string,
-    props:{
-        title: string,
-        options: Array<{ label: string, value: string, checked: boolean }>,
-        isVertical: boolean;
+    fe_id?: string,
+    props?:{
+        title?: string,
+        options?: Array<{ label: string, value: string, checked: boolean }>,
+        isVertical?: boolean;
     }
 }
 const QuestionCheckbox:FC<propsType> = ({fe_id,props})=>{
-    const {title,options,isVertical} = props
+    const {title,options=[],isVertical} = props ||{}
     const [selectedValues,setSelectedValues] = useState<string[]>([])
     function handleChange(value:string){
         const newSelectedValues = selectedValues.includes(value)

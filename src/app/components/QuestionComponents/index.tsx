@@ -6,7 +6,7 @@ import QuestionParagraph from "./QuestionParagraph";
 import QuestionTextarea from "./QuestionTextarea";
 import QuestionCheckbox from "./QuestionCheckbox";
 
-type componentProps={
+export type componentPropsType={
     fe_id:string
     type:string,
     props:{
@@ -15,7 +15,7 @@ type componentProps={
     },
     isHidden:boolean,
 }
-export default function genComponents(component:componentProps){
+export default function genComponents(component:componentPropsType){
     const {fe_id,type,props={},isHidden} = component
     // console.log('component',props)
     if(isHidden){

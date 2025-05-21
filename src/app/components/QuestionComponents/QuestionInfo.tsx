@@ -3,9 +3,9 @@ import styles from './QuestionInfo.module.scss'
 
 
 type propsType={
-    title:string;
-    desc:string;
-    isCenter:boolean;
+    title?:string;
+    desc?:string;
+    isCenter?:boolean;
 }
 const QuestionInfo:FC<propsType> = (props:propsType)=>{
     const { title,desc,isCenter } = props

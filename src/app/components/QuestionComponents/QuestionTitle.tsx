@@ -1,7 +1,7 @@
 import React,{CSSProperties, FC} from "react";
 
 
-type propsType={text:string,level:number,isCenter:boolean}
+type propsType={text?:string,level?:number,isCenter?:boolean}
 const QuestionTitle:FC<propsType> = (props:propsType)=>{
     const { text,level,isCenter } = props
     const style:CSSProperties={textAlign:isCenter?'center':'left'}

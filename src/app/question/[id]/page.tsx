@@ -6,6 +6,7 @@ import React, { FC } from "react";
  import { redirect } from "next/navigation";
 import genComponents from "@/app/components/QuestionComponents";
 //  import Error from "@/app/error/page";
+import { componentPropsType } from "@/app/components/QuestionComponents";
 
  
  export async function generateMetadata({params}:{params:Promise<{id:string}>}): Promise<Metadata> {
@@ -29,7 +30,7 @@ type questionInfoType={
         js: string,
         css: string,
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        componentList: Array<{[key:string]:any}>
+        componentList: Array<componentPropsType>
         isPublished: boolean,
         isDeleted: boolean,
     },
@@ -39,9 +40,12 @@ type params=Promise<{id:string}>
 
 const Question: FC<{params:params}> = async (props:{params:params}) => {
     try{
+        // 获取路径中的id params
         const data = await props.params
+        console.log(data)
         // 根绝questionId从后端获取问卷数据
         const questionInfo:questionInfoType = await getQuestion(data.id)
+        console.log(questionInfo)
         const {code,data:questionData} = questionInfo
         const {_id:id,js='',css='',isDeleted,isPublished,componentList} = questionData|| {}
         if(code !== 0){
@@ -55,7 +59,7 @@ const Question: FC<{params:params}> = async (props:{params:params}) => {
                 const Component=genComponents(item)
                 return Component?<div className={styles.componentWrapper} key = {item.fe_id}>{Component}</div>:null
             })}</>
-            return <>
+            return <div className={styles.wrapper}>
             <form method="post" action="/api/answerSubmit">
                 <input name='questionId' value={id} type="hidden"></input>
                 {componentElem}
@@ -66,12 +70,13 @@ const Question: FC<{params:params}> = async (props:{params:params}) => {
             <script id="page-js">{js}</script>
             {/* 没找到单独修改每个页面head的方法，采用script的方式将css插入到head中 */}
             <script id="page-js">{`const style = document.createElement('style');style.innerHTML = ${css};document.head.appendChild(style);`}</script>
-          </>
+          </div>
         }
     }catch(err){
         console.error(err)
         redirect('/error')
     }
 }
+
 
 export default Question

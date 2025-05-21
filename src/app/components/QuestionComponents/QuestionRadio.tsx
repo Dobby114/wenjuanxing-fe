@@ -4,14 +4,14 @@ import styles from './QuestionRadio.module.scss'
 interface propsType {
     fe_id: string,
     props: {
-        title: string,
-        options: Array<{ label: string, value: string }>,
-        value: string;
-        isVertical: boolean;
+        title?: string,
+        options?: Array<{ label: string, value: string }>,
+        value?: string;
+        isVertical?: boolean;
     }
 }
-const QuestionRadio: FC<propsType> = ({ fe_id, props }) => {
-    const { title,options,value,isVertical } = props
+const QuestionRadio: FC<Partial<propsType>> = ({ fe_id, props }) => {
+    const { title,options=[],value,isVertical } = props ||{}
     return <div className={styles.wrapper}>
         <div className={styles.title}>{title}</div>
         <ul className={styles.list}>
