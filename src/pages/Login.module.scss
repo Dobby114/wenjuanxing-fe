@@ -7,17 +7,20 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    // background-color: #DAF2FF;
     background-color: #fff;
     .main{
         height: 420px;
         width: 380px;
         border: solid 1px rgba(18, 17, 42, .07);
-        box-shadow: 0 22px 50px #d9e0fd5c;
+        box-shadow: 0 22px 50px #2d2e355c;
         border-radius: 10px;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: space-between;
+        background-color: #fff;
+        //  background-color: #DAF2FF;
         .title{
             padding-top: 10px;
         }

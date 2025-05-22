@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { LOGIN_PATHNAME } from '../router';
 import { Space, Button } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
@@ -28,7 +28,13 @@ const UserInfo: FC = () => {
     </Space>
   ) : (
     <div>
-      <Link to={LOGIN_PATHNAME}>登陆/注册</Link>
+      {/* <Link to={LOGIN_PATHNAME}>登陆/注册</Link> */}
+      <Button
+        // type="primary"
+        onClick={() => {
+          nav(LOGIN_PATHNAME);
+        }}
+        ghost={true}>登陆 / 注册</Button>
     </div>
   );
 };

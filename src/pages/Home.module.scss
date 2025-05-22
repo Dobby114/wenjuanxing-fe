@@ -1,10 +1,4 @@
 .container{
-    // position: absolute;
-    // top: 50%;
-    // left: 50%;
-    // transform: translate(-50%,-50%);
-    // text-align: center;
-    // height: calc(100vh - 64px - 65px);
     position: absolute;
     top:0;
     bottom: 0;
@@ -13,11 +7,27 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
-    background-image: linear-gradient(-20deg, #00cdac 0%, #8ddad5 100%);
+    background-color: #DAF2FF;
+    .content{
+        padding: 180px;
+        display: flex;
+        align-items: center;
+        .info{
+            width: 800px;
+            height: 200px;
+            text-align: center;
+        }
+        .icon{
+            flex:1;
+            background: url(../assets/yami.gif) center center no-repeat;
+            background-size: contain;
+            // width: 20%;
+            height: 400px;
+            position: relative
+          }
+    }
     h1{
         font-weight: 700;
-        font-size: 40px;
-        
+        font-size: 40px; 
     }
 }
