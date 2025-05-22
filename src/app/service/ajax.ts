@@ -1,4 +1,4 @@
-const HOST = 'https://zaomengwenjuan-be.vercel.app';
+const HOST = 'http://localhost:3005';
 
 export async function get(url:string){
     const res = await fetch(HOST + url)

@@ -1,15 +1,15 @@
 
-
 .page{
   /* width: 100%; */
   /* background-color: aquamarine; */
-  height: 100vh;
+  height: 94vh;
   width: 100%;
   text-align: center;
   color: #1e1e1e;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  background-color: #DAF2FF;
   .main{
     .info{
       font-size: 14px;
