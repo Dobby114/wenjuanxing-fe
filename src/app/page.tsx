@@ -1,16 +1,16 @@
 
 import styles from "./page.module.css";
-import QuestionInput from "./components/QuestionComponents/QuestionInput";
-import QuestionRadio from "./components/QuestionComponents/QuestionRadio";
+import Image from 'next/image'
 
 export default function Home() {
   return (
     <div className={styles.page}>
-      <form>
-        <QuestionInput fe_id='c1' props={{title:'111',placeholder:'2222'}} />
-        <QuestionRadio fe_id='c2' props={{title:'333',options:[{label:'444',value:'555'},{label:'666',value:'777'}],value:'555',isVertical:false}} />
-      </form>
-
+      <div className={styles.main}>
+        <h2>「造梦问卷」</h2>
+        <div className={styles.info}>让问卷设计更简单，让数据洞察更清晰!</div>
+        <Image property="true"  src="/icon.gif" alt="icon" width={200}
+          height={200}/>
+      </div>
     </div>
   );
 }
